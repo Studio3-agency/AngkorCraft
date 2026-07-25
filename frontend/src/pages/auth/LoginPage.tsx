@@ -45,7 +45,7 @@ export const LoginPage: React.FC = () => {
       footer={
         <>
           {t('dontHaveAccount')}{' '}
-          <Link to="/signup" className="text-[#BF5A36] font-semibold hover:underline">
+          <Link to="/signup" className="text-[#FF914D] font-semibold hover:underline">
             {t('createOne')}
           </Link>
         </>
@@ -69,14 +69,14 @@ export const LoginPage: React.FC = () => {
         <div>
           <label className="block text-xs font-semibold text-[#134E4A] mb-1.5">{t('emailLabel')}</label>
           <div className="relative">
-            <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#BF5A36]" />
+            <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF914D]" />
             <input
               type="email"
               required
               autoComplete="off"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#BF5A36]"
+              className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D]"
               placeholder="you@example.com"
             />
           </div>
@@ -90,7 +90,7 @@ export const LoginPage: React.FC = () => {
         <button
           type="submit"
           disabled={submitting || !isConfigured}
-          className="w-full flex items-center justify-center gap-2 bg-[#BF5A36] hover:bg-[#a94d2d] disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-[#FF914D] hover:bg-[#F07A33] disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors cursor-pointer"
         >
           <LogIn className="w-4 h-4" />
           {submitting ? t('signingIn') : t('signInBtn')}

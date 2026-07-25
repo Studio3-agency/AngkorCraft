@@ -10,7 +10,8 @@ import {
   Volume2, 
   Smile, 
   CheckCircle2, 
-  AlertCircle 
+  AlertCircle,
+  Compass
 } from 'lucide-react';
 
 interface GuidePageProps {
@@ -19,7 +20,7 @@ interface GuidePageProps {
 }
 
 export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConverter }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [activeTabId, setActiveTabId] = useState<string>('bargaining-etiquette');
   const [playingPhrase, setPlayingPhrase] = useState<string | null>(null);
 
@@ -52,23 +53,31 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
       {/* Header Banner */}
-      <div className="bg-[#134E4A] text-white p-6 sm:p-8 rounded-3xl border border-[#D4AF37]/30 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-[#134E4A] text-white p-6 sm:p-8 rounded-3xl border border-[#F5C542]/30 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.25em] flex items-center gap-1.5">
-            <BookOpen className="w-4 h-4 text-[#D4AF37]" />
+          <div className="flex items-center gap-2 text-xs font-bold text-[#F5C542] uppercase tracking-[0.25em]">
+            <BookOpen className="w-4 h-4 text-[#F5C542]" />
             <span>{t('touristTip')}</span>
-          </span>
+          </div>
           <h1 className="font-sans font-bold text-2xl sm:text-4xl text-white mt-1">
-            {t('buyingGuideTitle')}
+            {t('guideTitle')}
           </h1>
           <p className="text-xs sm:text-sm text-[#F2EDE4]/80 mt-1 max-w-xl">
-            {t('buyingGuideDesc')}
+            {t('guideDesc')}
           </p>
+        </div>
+
+        <div className="bg-white/10 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/20 text-xs text-[#F5C542] space-y-1 hidden md:block">
+          <div className="font-bold flex items-center gap-1.5 uppercase tracking-wider text-xs">
+            <Compass className="w-4 h-4 text-[#F5C542]" />
+            <span>{t('essentialTouristAdvice')}</span>
+          </div>
+          <p className="text-xs text-[#F2EDE4]/80">{t('learnPhrasesDesc')}</p>
         </div>
 
         <button
           onClick={onOpenCurrencyConverter}
-          className="bg-[#BF5A36] hover:bg-[#a34b2c] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all cursor-pointer shrink-0 shadow-md"
+          className="bg-[#FF914D] hover:bg-[#F07A33] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all cursor-pointer shrink-0 shadow-md"
         >
           {t('openConverter')} ➔
         </button>
@@ -79,7 +88,7 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
         
         {/* Navigation Sidebar */}
         <div className="lg:col-span-4 bg-white p-4 rounded-3xl border border-[#E8DEC8] shadow-xs space-y-2">
-          <div className="text-[10px] font-bold text-[#BF5A36] uppercase tracking-[0.2em] px-3 py-1">{t('navGuide')}</div>
+          <div className="text-xs font-bold text-[#FF914D] uppercase tracking-[0.2em] px-3 py-1">{t('navGuide')}</div>
           {guides.map((guide) => {
             const isActive = guide.id === activeTabId;
             return (
@@ -88,7 +97,7 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
                 onClick={() => setActiveTabId(guide.id)}
                 className={`w-full text-left p-3.5 rounded-2xl transition-all cursor-pointer flex items-center gap-3 ${
                   isActive
-                    ? 'bg-[#BF5A36] text-white shadow-xs font-bold'
+                    ? 'bg-[#FF914D] text-white shadow-xs font-bold'
                     : 'bg-[#F2EDE4] text-[#2D2926] hover:bg-[#E8DEC8]'
                 }`}
               >
@@ -96,8 +105,8 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
                   {categoryIcons[guide.id] || <BookOpen className="w-4 h-4" />}
                 </div>
                 <div>
-                  <div className="text-xs font-sans leading-tight">{guide.title}</div>
-                  <div className={`text-[10px] mt-0.5 ${isActive ? 'text-white/80' : 'text-[#8C7A70]'}`}>
+                  <div className="text-xs font-sans leading-tight">{language === 'kh' ? (guide.titleKh || guide.title) : guide.title}</div>
+                  <div className={`text-xs mt-0.5 ${isActive ? 'text-white/80' : 'text-[#8C7A70]'}`}>
                     {guide.readTime} • {guide.category}
                   </div>
                 </div>
@@ -110,17 +119,17 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
         <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-[#E8DEC8] shadow-xs space-y-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-[#BF5A36]/10 text-[#BF5A36] text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-widest">
+              <span className="bg-[#FF914D]/10 text-[#FF914D] text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-widest">
                 {activeGuide.category}
               </span>
               <span className="text-xs text-[#8C7A70]">{activeGuide.readTime}</span>
             </div>
 
             <h2 className="font-sans font-bold text-2xl sm:text-3xl text-[#134E4A] leading-tight">
-              {activeGuide.title}
+              {language === 'kh' ? (activeGuide.titleKh || activeGuide.title) : activeGuide.title}
             </h2>
-            <p className="text-xs sm:text-sm text-[#5C4D44] mt-2 italic border-l-2 border-[#BF5A36] pl-3 py-0.5">
-              "{activeGuide.summary}"
+            <p className="text-xs sm:text-sm text-[#5C4D44] mt-2 italic border-l-2 border-[#FF914D] pl-3 py-0.5">
+              "{language === 'kh' ? (activeGuide.summaryKh || activeGuide.summary) : activeGuide.summary}"
             </p>
           </div>
 
@@ -131,7 +140,7 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
               {t('keyAuthenticityTips')}
             </h3>
             <ul className="space-y-2 text-xs text-[#2D2926]">
-              {activeGuide.keyTips.map((tip, idx) => (
+              {(language === 'kh' && activeGuide.keyTipsKh ? activeGuide.keyTipsKh : activeGuide.keyTips).map((tip, idx) => (
                 <li key={idx} className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#134E4A] shrink-0 mt-1.5" />
                   <span>{tip}</span>
@@ -140,10 +149,10 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
             </ul>
           </div>
 
-          {/* Article Body Content Paragraphs */}
-          <div className="space-y-4 text-xs sm:text-sm text-[#2D2926] leading-relaxed">
-            {activeGuide.content.map((paragraph, idx) => (
-              <p key={idx} className="bg-[#FDF8F3] p-4 rounded-xl border border-[#134E4A]/10">
+          {/* Main Content Paragraphs */}
+          <div className="space-y-4">
+            {(language === 'kh' && activeGuide.contentKh ? activeGuide.contentKh : activeGuide.content).map((paragraph, idx) => (
+              <p key={idx} className="text-sm text-[#5C4D44] leading-relaxed">
                 {paragraph}
               </p>
             ))}
@@ -155,7 +164,7 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-sans font-bold text-lg text-[#134E4A] flex items-center gap-2">
-                    <Smile className="w-5 h-5 text-[#BF5A36]" />
+                    <Smile className="w-5 h-5 text-[#FF914D]" />
                     {t('politeKhmerPhrases')}
                   </h3>
                   <p className="text-xs text-[#5C4D44]">{t('listenAudioNote')}</p>
@@ -171,8 +180,8 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
                         onClick={() => playKhmerAudio(phrase.khmer)}
                         className={`p-1.5 rounded-full transition-colors cursor-pointer ${
                           playingPhrase === phrase.khmer
-                            ? 'bg-[#BF5A36] text-white animate-pulse'
-                            : 'bg-[#F2EDE4] text-[#134E4A] hover:bg-[#BF5A36] hover:text-white'
+                            ? 'bg-[#FF914D] text-white animate-pulse'
+                            : 'bg-[#F2EDE4] text-[#134E4A] hover:bg-[#FF914D] hover:text-white'
                         }`}
                         title="Listen to Khmer audio"
                       >
@@ -180,9 +189,9 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guides, onOpenCurrencyConv
                       </button>
                     </div>
 
-                    <div className="text-base font-sans text-[#BF5A36] font-semibold">{phrase.khmer}</div>
+                    <div className="text-base font-sans text-[#FF914D] font-semibold">{phrase.khmer}</div>
                     <div className="text-xs font-mono text-[#134E4A] font-bold">{phrase.phonetic}</div>
-                    <div className="text-[10px] text-[#8C7A70] italic">{phrase.context}</div>
+                    <div className="text-xs text-[#8C7A70] italic">{phrase.context}</div>
                   </div>
                 ))}
               </div>

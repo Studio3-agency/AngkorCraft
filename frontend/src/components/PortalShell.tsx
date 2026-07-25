@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { LogOut, ExternalLink, Loader2, Globe } from 'lucide-react';
+import { LogOut, ArrowLeft, Loader2, Globe, ExternalLink } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -17,6 +17,8 @@ interface PortalShellProps {
   headerSubtitle?: string;
   navItems: PortalNavItem[];
   loading?: boolean;
+  /** Optional control rendered in the header (e.g. a store switcher). */
+  headerControl?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -32,6 +34,7 @@ export const PortalShell: React.FC<PortalShellProps> = ({
   headerSubtitle,
   navItems,
   loading,
+  headerControl,
   children,
 }) => {
   const { signOut } = useAuth();
@@ -50,7 +53,7 @@ export const PortalShell: React.FC<PortalShellProps> = ({
       end={item.end}
       className={({ isActive }) =>
         `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
-          isActive ? 'bg-[#BF5A36] text-white' : 'text-[#134E4A]/80 hover:bg-[#F2EDE4]'
+          isActive ? 'bg-[#FF914D] text-white' : 'text-[#134E4A]/80 hover:bg-[#F2EDE4]'
         }`
       }
     >
@@ -64,7 +67,7 @@ export const PortalShell: React.FC<PortalShellProps> = ({
       {/* Desktop sidebar */}
       <aside className="hidden md:flex w-60 shrink-0 bg-white border-r border-[#E8DEC8] flex-col p-4 sticky top-0 h-screen">
         <div className="font-heading font-bold text-lg text-[#134E4A] px-2 mb-1">
-          ANGKOR<span className="text-[#BF5A36]">CRAFT</span>
+          ANGKOR<span className="text-[#FF914D]">CRAFT</span>
         </div>
         <nav className="space-y-1 flex-1">{navItems.map(sidebarLink)}</nav>
         <div className="border-t border-[#F2EDE4] pt-3 space-y-1">
@@ -79,7 +82,7 @@ export const PortalShell: React.FC<PortalShellProps> = ({
           </Link>
           <button
             onClick={doSignOut}
-            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold text-[#BF5A36] hover:bg-[#F2EDE4] cursor-pointer"
+            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold text-[#FF914D] hover:bg-[#F2EDE4] cursor-pointer"
           >
             <LogOut className="w-4 h-4" /> {t('signOut')}
           </button>
@@ -88,22 +91,32 @@ export const PortalShell: React.FC<PortalShellProps> = ({
 
       {/* Main column */}
       <div className="flex-1 min-w-0 pb-20 md:pb-0">
-        <header className="bg-white border-b border-[#E8DEC8] px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between sticky top-0 z-10">
-          <div className="min-w-0">
+        <header className="bg-white border-b border-[#E8DEC8] px-4 sm:px-8 py-3 sm:py-4 flex flex-wrap items-center gap-2 sticky top-0 z-10">
+          <div className="min-w-0 flex-1">
             <div className="md:hidden font-heading font-bold text-sm text-[#134E4A]">
-              ANGKOR<span className="text-[#BF5A36]">CRAFT</span>
+              ANGKOR<span className="text-[#FF914D]">CRAFT</span>
             </div>
             <h1 className="font-sans text-lg sm:text-xl font-bold text-[#134E4A] truncate">{headerTitle}</h1>
             {headerSubtitle && <p className="text-xs text-[#8C7A70] truncate">{headerSubtitle}</p>}
           </div>
+          {headerControl && <div className="order-last w-full sm:order-none sm:w-auto">{headerControl}</div>}
           <div className="flex items-center gap-2 shrink-0">
-            {loading && <Loader2 className="w-5 h-5 text-[#BF5A36] animate-spin" />}
+            {loading && <Loader2 className="w-5 h-5 text-[#FF914D] animate-spin" />}
+            {/* Prominent return to the public storefront (easy to spot). */}
+            <Link
+              to="/"
+              className="flex items-center gap-2 bg-[#134E4A] hover:bg-[#0f3d3a] text-white px-5 py-2 rounded-full text-sm font-black cursor-pointer shadow-md transition-all hover:-translate-y-0.5"
+              title="View Store Page"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline uppercase tracking-wide">View Store Page</span>
+            </Link>
             {/* Mobile language toggle */}
             <button
               onClick={toggleLanguage}
               className="md:hidden flex items-center gap-1 bg-[#F2EDE4] border border-[#134E4A]/15 px-2.5 py-1.5 rounded-full text-xs font-bold text-[#134E4A] cursor-pointer"
             >
-              <Globe className="w-3.5 h-3.5 text-[#BF5A36]" />
+              <Globe className="w-3.5 h-3.5 text-[#FF914D]" />
               {language === 'en' ? 'ខ្មែរ' : 'EN'}
             </button>
           </div>
@@ -125,7 +138,7 @@ export const PortalShell: React.FC<PortalShellProps> = ({
               end={item.end}
               className={({ isActive }) =>
                 `flex-1 flex flex-col items-center justify-center gap-0.5 py-2 cursor-pointer transition-colors ${
-                  isActive ? 'text-[#BF5A36]' : 'text-[#8C7A70]'
+                  isActive ? 'text-[#FF914D]' : 'text-[#8C7A70]'
                 }`
               }
             >
@@ -135,7 +148,7 @@ export const PortalShell: React.FC<PortalShellProps> = ({
           ))}
           <button
             onClick={doSignOut}
-            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 text-[#BF5A36] cursor-pointer"
+            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 text-[#FF914D] cursor-pointer"
           >
             <LogOut className="w-5 h-5" />
             <span className="text-[10px] font-semibold leading-none">{t('signOut')}</span>

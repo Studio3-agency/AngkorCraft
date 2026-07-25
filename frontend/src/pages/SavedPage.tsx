@@ -44,23 +44,23 @@ export const SavedPage: React.FC<SavedPageProps> = ({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
       {/* Header Banner */}
-      <div className="bg-[#134E4A] text-white p-6 sm:p-8 rounded-3xl border border-[#D4AF37]/30 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-[#134E4A] text-white p-6 sm:p-8 rounded-3xl border border-[#F5C542]/30 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.25em]">
-            <Heart className="w-4 h-4 fill-[#D4AF37] text-[#D4AF37]" />
-            <span>{t('wishlistTitle')}</span>
+          <div className="flex items-center gap-2 text-xs font-bold text-[#F5C542] uppercase tracking-[0.25em]">
+            <Heart className="w-4 h-4 fill-[#F5C542] text-[#F5C542]" />
+            <span>{t('savedWishlistBadge')}</span>
           </div>
           <h1 className="font-sans font-bold text-2xl sm:text-4xl text-white mt-1">
-            {t('wishlistTitle')} ({savedProducts.length})
+            {t('savedWishlistTitle')}
           </h1>
           <p className="text-xs sm:text-sm text-[#F2EDE4]/80 mt-1 max-w-xl">
-            {t('wishlistDesc')}
+            {t('savedWishlistDesc')}
           </p>
         </div>
 
         {savedProducts.length > 0 && (
           <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 text-right space-y-1">
-            <div className="text-[10px] uppercase tracking-wider text-[#D4AF37] font-bold">{t('estimatedTotalBudget')}:</div>
+            <div className="text-xs uppercase tracking-wider text-[#FF914D] font-bold">{t('estimatedTotalBudget')}:</div>
             <div className="font-sans font-bold text-xl text-white">${totalBudgetUsd} USD</div>
             <div className="text-xs font-mono text-[#F2EDE4]/80">≈ {totalBudgetKhr.toLocaleString()} KHR</div>
           </div>
@@ -72,13 +72,13 @@ export const SavedPage: React.FC<SavedPageProps> = ({
           
           {/* Wishlist Items Grid */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-[#BF5A36]/15 pb-3">
+            <div className="flex items-center justify-between border-b border-[#FF914D]/15 pb-3">
               <h2 className="font-sans font-bold text-xl text-[#134E4A]">
                 {t('savedItems')}
               </h2>
               <button
                 onClick={onClearSaved}
-                className="text-xs font-bold text-[#BF5A36] uppercase tracking-wider hover:underline flex items-center gap-1 cursor-pointer"
+                className="text-xs font-bold text-[#FF914D] uppercase tracking-wider hover:underline flex items-center gap-1 cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 {t('clearWishlist')}
@@ -101,8 +101,8 @@ export const SavedPage: React.FC<SavedPageProps> = ({
           {/* Planned Market Visit Map Itinerary */}
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#E8DEC8] shadow-xs space-y-6">
             <div className="space-y-1">
-              <span className="text-[10px] font-bold text-[#BF5A36] uppercase tracking-[0.25em] flex items-center gap-1">
-                <Compass className="w-4 h-4 text-[#BF5A36]" />
+              <span className="text-xs font-bold text-[#FF914D] uppercase tracking-[0.25em] flex items-center gap-1">
+                <Compass className="w-4 h-4 text-[#FF914D]" />
                 {t('marketItinerary')}
               </span>
               <h2 className="font-sans font-bold text-2xl text-[#134E4A]">
@@ -125,15 +125,15 @@ export const SavedPage: React.FC<SavedPageProps> = ({
                 <div key={shop.id} className="bg-[#F2EDE4] p-4 rounded-2xl border border-[#134E4A]/10 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-sans font-bold text-sm text-[#2D2926]">{language === 'kh' ? shop.khmerName : shop.name}</span>
-                    <span className="text-[10px] bg-[#134E4A] text-white px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">{shop.city}</span>
+                    <span className="text-xs bg-[#134E4A] text-white px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">{shop.city}</span>
                   </div>
                   <div className="text-xs text-[#5C4D44] line-clamp-1">{shop.address}</div>
-                  <div className="text-[11px] text-[#8C7A70]">{shop.openingHours}</div>
+                  <div className="text-xs text-[#8C7A70]">{shop.openingHours}</div>
                   <a
                     href={shop.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#BF5A36] hover:underline pt-1 uppercase tracking-wider"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#FF914D] hover:underline pt-1 uppercase tracking-wider"
                   >
                     <span>{t('openGoogleMapsDirections')}</span>
                     <ExternalLink className="w-3 h-3" />
@@ -146,8 +146,8 @@ export const SavedPage: React.FC<SavedPageProps> = ({
         </div>
       ) : (
         <div className="bg-white p-12 rounded-3xl border border-[#E8DEC8] text-center space-y-4 my-8">
-          <div className="w-16 h-16 bg-[#F2EDE4] text-[#BF5A36] rounded-full flex items-center justify-center mx-auto text-2xl font-sans">
-            <Heart className="w-8 h-8 text-[#BF5A36]" />
+          <div className="w-16 h-16 bg-[#F2EDE4] text-[#FF914D] rounded-full flex items-center justify-center mx-auto text-2xl font-sans">
+            <Heart className="w-8 h-8 text-[#FF914D]" />
           </div>
           <h2 className="font-sans font-bold text-2xl text-[#134E4A]">
             {t('wishlistEmptyTitle')}
@@ -157,7 +157,7 @@ export const SavedPage: React.FC<SavedPageProps> = ({
           </p>
           <button
             onClick={() => onNavigate('products')}
-            className="bg-[#BF5A36] hover:bg-[#a34b2c] text-white px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest transition-all cursor-pointer inline-flex items-center gap-2 shadow-md"
+            className="bg-[#FF914D] hover:bg-[#F07A33] text-white px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest transition-all cursor-pointer inline-flex items-center gap-2 shadow-md"
           >
             <ShoppingBag className="w-4 h-4" />
             <span>{t('browseCatalog')}</span>

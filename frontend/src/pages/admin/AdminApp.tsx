@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { LayoutDashboard, Store, Package, AlertCircle } from 'lucide-react';
+import { LayoutDashboard, Store, Package, AlertCircle, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAdminData } from '../../hooks/useAdminData';
@@ -8,6 +8,7 @@ import { PortalShell, PortalNavItem } from '../../components/PortalShell';
 import { AdminOverview } from './AdminOverview';
 import { AdminShops } from './AdminShops';
 import { AdminProducts } from './AdminProducts';
+import { AdminModeration } from './AdminModeration';
 
 export const AdminApp: React.FC = () => {
   const { profile } = useAuth();
@@ -18,6 +19,7 @@ export const AdminApp: React.FC = () => {
     { to: '/admin', label: t('overview'), icon: LayoutDashboard, end: true },
     { to: '/admin/shops', label: t('shopsMerchants'), icon: Store },
     { to: '/admin/products', label: t('productsLabel'), icon: Package },
+    { to: '/admin/moderation', label: t('moderationLabel'), icon: ShieldAlert },
   ];
 
   return (
@@ -38,6 +40,7 @@ export const AdminApp: React.FC = () => {
         <Route index element={<AdminOverview data={data} />} />
         <Route path="shops" element={<AdminShops data={data} />} />
         <Route path="products" element={<AdminProducts data={data} />} />
+        <Route path="moderation" element={<AdminModeration data={data} />} />
       </Routes>
     </PortalShell>
   );

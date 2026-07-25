@@ -377,10 +377,12 @@ export const MOCK_GUIDES: GuideArticle[] = [
   {
     id: 'bargaining-etiquette',
     title: 'Friendly Bargaining Etiquette in Cambodia',
+    titleKh: 'ក្រមសីលធម៌នៃការតថ្លៃដោយស្នាមញញឹមនៅកម្ពុជា',
     category: 'Bargaining Etiquette',
     readTime: '3 min read',
     iconName: 'ShoppingBag',
     summary: 'How to negotiate politely with smile & respect in Cambodian local markets without offending stall owners.',
+    summaryKh: 'របៀបចរចាដោយសុជីវធម៌ ជាមួយស្នាមញញឹម និងការគោរពនៅតាមទីផ្សារក្នុងស្រុកដោយមិនធ្វើឱ្យម្ចាស់តូបអាក់អន់ចិត្ត។',
     content: [
       'In Cambodia, market bargaining is expected at traditional markets like Phsar Thmei (Central Market) and Siem Reap Night Market, but NOT at fixed-price social enterprises like Artisans Angkor or Fair Trade Village.',
       'Always start with a warm smile and a polite Khmer greeting: "Sua s’dhei" (Hello!).',
@@ -388,11 +390,24 @@ export const MOCK_GUIDES: GuideArticle[] = [
       'If a vendor lowers their price after bargaining and agrees to your offer, it is customary courtesy to complete the purchase.',
       'Remember that $1 USD can mean a meal for a vendor’s family. Keep the interaction lighthearted and respectful.'
     ],
+    contentKh: [
+      'នៅប្រទេសកម្ពុជា ការតថ្លៃគឺជារឿងធម្មតានៅតាមទីផ្សារប្រពៃណីដូចជា ផ្សារធំថ្មី និងផ្សាររាត្រីសៀមរាប ប៉ុន្តែមិនមែនសម្រាប់សហគ្រាសសង្គមដែលមានតម្លៃថេរដូចជា Artisans Angkor ឬ Fair Trade Village នោះទេ។',
+      'តែងតែចាប់ផ្តើមជាមួយស្នាមញញឹមដ៏កក់ក្តៅ និងការស្វាគមន៍ជាភាសាខ្មែរ៖ "សួស្តី!"',
+      'ជាទូទៅ តម្លៃដំបូងដែលអ្នកលក់ប្រាប់ជនបរទេសអាចខ្ពស់ជាងតម្លៃធម្មតា ២០% ទៅ ៣០%។ សូមផ្តល់តម្លៃប្រហែល ៧០% នៃតម្លៃដែលគេប្រាប់ ហើយចរចាដោយភាពរីករាយ ដើម្បីសម្របសម្រួលគ្នា។',
+      'ប្រសិនបើអ្នកលក់បញ្ចុះតម្លៃបន្ទាប់ពីការតថ្លៃ ហើយយល់ព្រមតាមតម្លៃរបស់អ្នក វាគឺជាសុជីវធម៌ដែលត្រូវតែទិញ។',
+      'សូមចងចាំថា ១ ដុល្លារ អាចមានន័យថាជាអាហារមួយពេលសម្រាប់គ្រួសារអ្នកលក់។ សូមរក្សាបរិយាកាសរីករាយ និងការគោរព។'
+    ],
     keyTips: [
       'Smile and use Khmer words like "Sua s’dhei" (Hello) and "Orkun" (Thank you).',
       'Never show anger or argue loudly—saving face is very important in Khmer culture.',
       'Bargain in local riel or USD rounded numbers for smoother cash exchanges.',
       'Check fixed-price artisan co-ops first so you have a realistic benchmark for quality.'
+    ],
+    keyTipsKh: [
+      'ញញឹម និងប្រើពាក្យខ្មែរដូចជា "សួស្តី" និង "អរគុណ"។',
+      'កុំបង្ហាញកំហឹង ឬឈ្លោះប្រកែកគ្នាឲ្យសោះ - ការរក្សាមុខមាត់គឺជារឿងសំខាន់ណាស់ក្នុងវប្បធម៌ខ្មែរ។',
+      'តថ្លៃជារៀល ឬដុល្លារគត់ៗ ដើម្បីងាយស្រួលក្នុងការទូទាត់ប្រាក់។',
+      'ពិនិត្យមើលតម្លៃថេររបស់សហគមន៍សិប្បករជាមុនសិន ដើម្បីដឹងពីតម្លៃស្តង់ដារគុណភាព។'
     ],
     phrases: [
       { english: 'Hello', khmer: 'សួស្តី', phonetic: 'Sua s’dhei', context: 'Polite greeting when entering stall' },
@@ -404,29 +419,44 @@ export const MOCK_GUIDES: GuideArticle[] = [
   {
     id: 'authenticity-guide',
     title: 'Spotting Real Cambodian Silk vs Synthetic Imports',
+    titleKh: 'ការស្វែងរកសូត្រខ្មែរពិតប្រាកដ និងសូត្រនាំចូលដែលជាក្រណាត់សំយោគ',
     category: 'Authenticity Guide',
     readTime: '4 min read',
     iconName: 'ShieldCheck',
     summary: 'Learn simple tests to verify genuine 100% raw golden silk, Kampot PGI pepper seals, and silver purity marks.',
+    summaryKh: 'ស្វែងយល់ពីវិធីសាស្ត្រងាយៗ ដើម្បីផ្ទៀងផ្ទាត់សូត្រមាសសុទ្ធ ម្រេចកំពត និងប្រាក់សុទ្ធ។',
     content: [
       'Cambodia’s rich artisan heritage faces competition from cheap synthetic factory imports. Here is how to make sure your souvenir dollars directly support true local weavers and craftsmen.',
       'Golden Silk Test: Real Cambodian silk is produced by golden silkworms. When held under natural light, genuine handwoven silk exhibits a metallic luster that shifts hue with angle. Synthetic polyester stays static and flat.',
       'The Burn Test (Ask weaver for a thread): Pull a loose fringe thread and ignite it with a lighter. True silk burns slowly, smells like burnt hair, and crumbles into soft charcoal ash. Polyester melts instantly into a hard plastic bead.',
       'Kampot Pepper PGI Seal: Official Kampot pepper must carry the KPPA green/red seal and a QR code linking to the specific family farm in Kampot.'
     ],
+    contentKh: [
+      'បេតិកភណ្ឌសិប្បករដ៏សម្បូរបែបរបស់កម្ពុជា ប្រឈមនឹងការប្រកួតប្រជែងពីការនាំចូលរោងចក្រសំយោគដែលមានតម្លៃថោក។ នេះជារបៀបធ្វើឲ្យប្រាកដថាប្រាក់របស់អ្នកគាំទ្រផ្ទាល់ដល់ជាងត្បាញ និងសិប្បករក្នុងស្រុកពិតប្រាកដ។',
+      'ការធ្វើតេស្តសូត្រមាស៖ សូត្រកម្ពុជាពិតត្រូវបានផលិតដោយដង្កូវនាងមាស។ នៅពេលកាន់ក្រោមពន្លឺធម្មជាតិ សូត្រត្បាញដោយដៃពិតប្រាកដបង្ហាញពន្លឺភ្លឺរលោងផ្លាស់ប្តូរពណ៌ទៅតាមមុំ។ ចំណែកឯសូត្រសំយោគវិញនៅនឹងថ្កល់ និងសំប៉ែត។',
+      'ការធ្វើតេស្តដុត៖ ដកសរសៃអំបោះមួយសរសៃ ហើយដុតវាដោយប្រើដែកកេស។ សូត្រពិតឆេះយឺតៗ មានក្លិនដូចសក់ឆេះ និងបែកជាផេះទន់។ ប៉ូលីអេសស្ទ័រ រលាយភ្លាមៗទៅជាប្លាស្ទិករឹង។',
+      'ត្រាម្រេចកំពត PGI៖ ម្រេចកំពតផ្លូវការត្រូវតែមានត្រាពណ៌បៃតង/ក្រហម KPPA និងកូដ QR ភ្ជាប់ទៅកាន់កសិដ្ឋានគ្រួសារជាក់លាក់នៅកំពត។'
+    ],
     keyTips: [
       'Look for "Fair Trade Cambodia" or "Handmade in Siem Reap" official certification tags.',
       'Pure silver items in Cambodia are stamped "T90" (90% silver) or "T80".',
       'Buy directly from verified artisan co-ops linked in our location map.'
+    ],
+    keyTipsKh: [
+      'ស្វែងរកស្លាកវិញ្ញាបនប័ត្រផ្លូវការ "Fair Trade Cambodia" ឬ "ធ្វើដោយដៃនៅសៀមរាប"។',
+      'ប្រាក់សុទ្ធនៅកម្ពុជាត្រូវបានបោះត្រា "T90" (ប្រាក់ ៩០%) ឬ "T80"។',
+      'ទិញដោយផ្ទាល់ពីសហគមន៍សិប្បករដែលបានបញ្ជាក់ ដែលមានភ្ជាប់នៅលើផែនទីទីតាំងរបស់យើង។'
     ]
   },
   {
     id: 'currency-and-aba-pay',
     title: 'Currency Guide: Cash (USD/KHR) & ABA Pay / Bakong QR',
+    titleKh: 'មគ្គុទ្ទេសក៍រូបិយប័ណ្ណ៖ សាច់ប្រាក់ (USD/KHR) និងការទូទាត់តាម ABA / Bakong QR',
     category: 'Currency & ABA Pay',
     readTime: '3 min read',
     iconName: 'CreditCard',
     summary: 'Understanding the dual-currency system in Cambodia and how tourists can pay easily with cash or local QR apps.',
+    summaryKh: 'ការយល់ដឹងអំពីប្រព័ន្ធរូបិយប័ណ្ណពីរនៅកម្ពុជា និងរបៀបដែលភ្ញៀវទេសចរអាចទូទាត់ប្រាក់យ៉ាងងាយស្រួលជាមួយនឹងសាច់ប្រាក់ ឬកម្មវិធី QR ក្នុងស្រុក។',
     content: [
       'Cambodia operates on a dual-currency system: US Dollars (USD) and Cambodian Riel (KHR).',
       'Standard conversion rate: $1.00 USD = 4,100 KHR (commonly calculated at 4,000 KHR in quick market math).',
@@ -434,29 +464,54 @@ export const MOCK_GUIDES: GuideArticle[] = [
       'Small change under $1 USD is almost always given back in Cambodian Riel notes (e.g. 500, 1000, 2000, 5000 KHR notes).',
       'Bakong & ABA Pay: Many modern shops accept Bakong Tourist Wallet QR code payments, allowing tourists to pay without carrying heavy cash!'
     ],
+    contentKh: [
+      'កម្ពុជាប្រើប្រាស់ប្រព័ន្ធរូបិយប័ណ្ណពីរ គឺប្រាក់ដុល្លារអាមេរិក (USD) និងប្រាក់រៀលខ្មែរ (KHR)។',
+      'អត្រាប្តូរប្រាក់ស្តង់ដារ៖ ១.០០ ដុល្លារអាមេរិក = ៤,១០០ រៀល (ជាទូទៅគិតត្រឹម ៤,០០០ រៀល សម្រាប់ការគិតលុយរហ័សនៅទីផ្សារ)។',
+      'ក្រដាសប្រាក់ដុល្លារត្រូវតែថ្មី ស្អាត និងគ្មានស្នាមរហែក ឬស្នាមត្រា។ អ្នកលក់ច្រើនតែបដិសេធក្រដាសប្រាក់ ១០០ ដុល្លារ ឬ ២០ ដុល្លារ ដែលខូច ឬរហែក។',
+      'ប្រាក់អាប់ដែលមានចំនួនតិចជាង ១ ដុល្លារ ស្ទើរតែតែងតែត្រូវបានអាប់ជាក្រដាសប្រាក់រៀលខ្មែរ (ឧទាហរណ៍ ក្រដាស ៥០០, ១០០០, ២០០០, ៥០០០ រៀល)។',
+      'Bakong និង ABA Pay៖ ហាងទំនើបៗជាច្រើនទទួលយកការទូទាត់តាមកូដ QR របស់ Bakong Tourist Wallet ដែលអនុញ្ញាតឱ្យភ្ញៀវទេសចរទូទាត់ប្រាក់ដោយមិនចាំបាច់យកសាច់ប្រាក់ច្រើនតាមខ្លួន!'
+    ],
     keyTips: [
       'Keep USD bills flat and unsoiled in your wallet.',
       'Use 10,000 KHR or 20,000 KHR notes for small street market purchases ($2.50 to $5).',
       'Download Bakong Tourist App or use USD cash at night markets.'
+    ],
+    keyTipsKh: [
+      'ទុកក្រដាសប្រាក់ដុល្លារឱ្យត្រង់ និងមិនប្រឡាក់នៅក្នុងកាបូបរបស់អ្នក។',
+      'ប្រើក្រដាសប្រាក់ ១០,០០០ រៀល ឬ ២០,០០០ រៀល សម្រាប់ការទិញទំនិញតូចៗនៅតាមចិញ្ចើមផ្លូវ (ពី ២.៥០ ទៅ ៥ ដុល្លារ)។',
+      'ទាញយកកម្មវិធី Bakong Tourist ឬប្រើសាច់ប្រាក់ដុល្លារនៅតាមផ្សាររាត្រី។'
     ]
   },
   {
     id: 'customs-and-export',
     title: 'Customs & Exporting Souvenirs Safely',
+    titleKh: 'គយ និងការនាំចេញវត្ថុអនុស្សាវរីយ៍ដោយសុវត្ថិភាព',
     category: 'Customs & Export',
     readTime: '3 min read',
     iconName: 'PlaneTakeoff',
     summary: 'What souvenirs you can take home, regulations on antique woodcarvings, and pepper duty-free limits.',
+    summaryKh: 'តើវត្ថុអនុស្សាវរីយ៍អ្វីខ្លះដែលអ្នកអាចយកទៅផ្ទះបាន បទប្បញ្ញត្តិស្តីពីចម្លាក់ឈើបុរាណ និងដែនកំណត់នៃការលើកលែងពន្ធសម្រាប់ម្រេច។',
     content: [
       'Most local crafts like Kampot pepper, silk scarves, silver boxes, coffee beans, and modern wood carvings can be brought home safely in check-in luggage.',
       'Antiques & Buddha Statues: Cambodian law strictly prohibits exporting genuine antique cultural artifacts or ancient temple relics without an official permit from the Ministry of Culture and Fine Arts.',
       'Modern replicas created by artisans (like Artisans Angkor) are 100% legal to export and come with store receipts stating modern reproduction.',
       'Spices & Food: Sealed PGI Kampot pepper bags and coffee beans easily pass international customs (USA, EU, UK, Australia, Japan).'
     ],
+    contentKh: [
+      'សិប្បកម្មក្នុងស្រុកភាគច្រើនដូចជា ម្រេចកំពត កន្សែងសូត្រ ប្រអប់ប្រាក់ គ្រាប់កាហ្វេ និងចម្លាក់ឈើទំនើបៗ អាចយកទៅផ្ទះដោយសុវត្ថិភាពនៅក្នុងវ៉ាលីដែលផ្ញើតាមយន្តហោះ។',
+      'វត្ថុបុរាណ និងរូបចម្លាក់ព្រះពុទ្ធ៖ ច្បាប់កម្ពុជាហាមឃាត់យ៉ាងតឹងរ៉ឹងនូវការនាំចេញវត្ថុបុរាណពិតប្រាកដ ឬវត្ថុសក្ការៈបូជាពីប្រាសាទបុរាណដោយគ្មានលិខិតអនុញ្ញាតជាផ្លូវការពីក្រសួងវប្បធម៌ និងវិចិត្រសិល្បៈ។',
+      'វត្ថុចម្លងទំនើបៗដែលបង្កើតឡើងដោយសិប្បករ (ដូចជា Artisans Angkor) គឺស្របច្បាប់ ១០០% ក្នុងការនាំចេញ ហើយមានភ្ជាប់មកជាមួយវិក័យប័ត្របញ្ជាក់ពីហាងថាជាវត្ថុចម្លងទំនើប។',
+      'គ្រឿងទេស និងអាហារ៖ កញ្ចប់ម្រេចកំពត PGI ដែលបិទជិត និងគ្រាប់កាហ្វេ អាចឆ្លងកាត់គយអន្តរជាតិបានយ៉ាងងាយស្រួល (សហរដ្ឋអាមេរិក សហភាពអឺរ៉ុប ចក្រភពអង់គ្លេស អូស្ត្រាលី ជប៉ុន)។'
+    ],
     keyTips: [
       'Keep store receipts inside your souvenir box for airport customs inspectors.',
       'Declare wood products if traveling to Australia or New Zealand (must be treated kiln-dried wood).',
       'Pack Kampot pepper in vacuum-sealed bags in checked baggage.'
+    ],
+    keyTipsKh: [
+      'រក្សាទុកវិក័យប័ត្រពីហាងនៅក្នុងប្រអប់វត្ថុអនុស្សាវរីយ៍របស់អ្នកសម្រាប់មន្ត្រីគយនៅព្រលានយន្តហោះពិនិត្យ។',
+      'ប្រកាសប្រាប់គយអំពីផលិតផលឈើ ប្រសិនបើធ្វើដំណើរទៅប្រទេសអូស្ត្រាលី ឬនូវែលសេឡង់ (ត្រូវតែជាឈើដែលបានឆ្លងកាត់ការសម្ងួតដោយឡ)។',
+      'វេចខ្ចប់ម្រេចកំពតក្នុងថង់បូមធូលី (vacuum-sealed bags) ដាក់ក្នុងវ៉ាលីផ្ញើ។'
     ]
   }
 ];

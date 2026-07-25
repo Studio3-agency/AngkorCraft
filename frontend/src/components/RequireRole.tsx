@@ -21,7 +21,7 @@ export const RequireRole: React.FC<RequireRoleProps> = ({ role, children }) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FAF7F2]">
-        <div className="w-8 h-8 border-3 border-[#BF5A36]/30 border-t-[#BF5A36] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-[#FF914D]/30 border-t-[#FF914D] rounded-full animate-spin" />
       </div>
     );
   }

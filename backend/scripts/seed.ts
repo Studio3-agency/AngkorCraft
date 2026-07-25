@@ -49,8 +49,11 @@ function shopRow(shop: Shop, index: number) {
     is_verified: shop.isVerified ?? false,
     featured_product_ids: shop.featuredProductIds ?? [],
     // Seed shops are live; first few are spotlighted so the homepage looks full.
+    // Featured shops carry an active boost window (30 days out) so the
+    // "only featured while boost is active" rule keeps them visible.
     status: 'approved',
     is_featured: index < 4,
+    featured_until: index < 4 ? new Date(Date.now() + 30 * 864e5).toISOString() : null,
     subscription_status: 'active',
     vertical: 'artisan',
   };

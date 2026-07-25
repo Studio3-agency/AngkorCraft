@@ -48,6 +48,7 @@ export interface Product {
   ownerId?: string | null;
   ownerShopId?: string | null;
   imagePublicId?: string | null;
+  moderationStatus?: ModerationStatus;
   vertical?: string;
   createdAt?: string;
 }
@@ -61,7 +62,28 @@ export interface Profile {
   fullName: string | null;
   phone: string | null;
   avatarUrl: string | null;
+  bio?: string | null;
   createdAt?: string;
+}
+
+/** A public-safe subset of a profile (name + avatar + bio only). */
+export interface PublicProfile {
+  id: string;
+  fullName: string | null;
+  avatarUrl: string | null;
+  bio: string | null;
+}
+
+/** A shopper's rating + comment on a store. */
+export interface Review {
+  id: string;
+  shopId: string;
+  userId: string;
+  authorName: string;
+  authorAvatar: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
 }
 
 // --- Simulated commerce (merchant portal) ---
@@ -87,6 +109,20 @@ export interface PosSale {
 
 export type ShopStatus = 'pending' | 'approved' | 'rejected';
 export type SubscriptionStatus = 'trial' | 'active' | 'inactive';
+export type ModerationStatus = 'approved' | 'pending' | 'flagged' | 'removed';
+
+/** A shopper-submitted report against a product or shop. */
+export interface ContentReport {
+  id: string;
+  targetType: 'product' | 'shop';
+  targetId: string;
+  reason: string;
+  note: string;
+  reporterId?: string | null;
+  reporterEmail?: string;
+  status: 'open' | 'reviewed' | 'dismissed';
+  createdAt: string;
+}
 
 export interface Shop {
   id: string;
@@ -102,6 +138,17 @@ export interface Shop {
   paymentMethods: ('ABA Pay' | 'Cash (USD/KHR)' | 'Credit Card' | 'Bakong QR')[];
   phone: string;
   googleMapsUrl: string;
+  // --- Contact / social channels (all optional, merchant-entered) ---
+  instagram?: string;
+  telegram?: string;
+  wechat?: string;
+  messenger?: string;
+  facebook?: string;
+  tiktok?: string;
+  whatsapp?: string;
+  website?: string;
+  email?: string;
+  contactNote?: string;
   rating: number;
   reviewCount: number;
   image: string;
@@ -110,6 +157,9 @@ export interface Shop {
   descriptionKh?: string | null;
   isVerified: boolean;
   featuredProductIds: string[];
+  /** URL slug for the shareable store page (/shop/:slug). */
+  slug?: string;
+  moderationStatus?: ModerationStatus;
   // --- Marketplace / platform fields (absent on static mock, present from Supabase) ---
   ownerId?: string | null;
   status?: ShopStatus;
@@ -131,12 +181,16 @@ export interface KhmerPhrase {
 export interface GuideArticle {
   id: string;
   title: string;
+  titleKh?: string;
   category: 'Bargaining Etiquette' | 'Authenticity Guide' | 'Currency & ABA Pay' | 'Customs & Export' | 'Khmer Language';
   readTime: string;
   iconName: string;
   summary: string;
+  summaryKh?: string;
   content: string[];
+  contentKh?: string[];
   keyTips: string[];
+  keyTipsKh?: string[];
   phrases?: KhmerPhrase[];
 }
 

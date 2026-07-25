@@ -45,7 +45,7 @@ export async function uploadImage(file: File, folder = 'angkorcraft'): Promise<U
   }
 
   // 1) Ask the backend to sign the upload params.
-  const { signature, timestamp, apiKey } = await apiFetch('/api/cloudinary/sign', {
+  const { signature, timestamp, apiKey, moderation } = await apiFetch('/api/cloudinary/sign', {
     method: 'POST',
     body: JSON.stringify({ folder }),
   });
@@ -56,6 +56,8 @@ export async function uploadImage(file: File, folder = 'angkorcraft'): Promise<U
   form.append('api_key', apiKey);
   form.append('timestamp', String(timestamp));
   form.append('folder', folder);
+  // Must match exactly what the backend signed (if moderation is enabled).
+  if (moderation) form.append('moderation', moderation);
   form.append('signature', signature);
 
   const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
@@ -63,7 +65,16 @@ export async function uploadImage(file: File, folder = 'angkorcraft'): Promise<U
     body: form,
   });
   if (!res.ok) {
-    throw new Error('Cloudinary upload failed.');
+    // Surface Cloudinary's real reason (e.g. invalid signature, moderation not
+    // enabled) instead of a generic message, so failures are actionable.
+    let detail = '';
+    try {
+      const body = await res.json();
+      detail = body?.error?.message || '';
+    } catch {
+      /* non-JSON error body */
+    }
+    throw new Error(detail ? `Cloudinary: ${detail}` : `Cloudinary upload failed (HTTP ${res.status}).`);
   }
   const data = await res.json();
   return { url: data.secure_url, publicId: data.public_id };

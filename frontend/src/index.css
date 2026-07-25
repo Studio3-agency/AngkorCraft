@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Inter", "Kantumruy Pro", sans-serif;
+  --font-heading: "Poppins", "Inter", "Kantumruy Pro", sans-serif;
+}
+
 @layer base {
   body {
     background-color: #FDF8F3;
     color: #2D2926;
   }
-
-  body, .font-sans {
-    /* Latin glyphs -> Inter; Khmer glyphs -> Noto Sans Khmer */
-    font-family: 'Inter', 'Noto Sans Khmer', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-
-  h1, h2, h3, .font-heading {
-    /* Latin headings -> Poppins; Khmer headings -> Kantumruy Pro */
-    font-family: 'Poppins', 'Inter', 'Kantumruy Pro', sans-serif;
-  }
 }
 
 /* ============================================================
    Khmer mode: the script reads small & thin, so scale up a
-   touch and render everything at a heavier weight. Applied via
-   data-lang on <html> (set by LanguageProvider).
+/* ============================================================
+   Disable letter spacing globally across all languages
+   (English and Khmer) to test the look without wide tracking.
    ============================================================ */
+* {
+  letter-spacing: normal !important;
+}
+
 html {
   font-size: 108%; /* Enlarge base font size uniformly across EN and KH */
 }
@@ -30,12 +30,12 @@ html {
 /* Custom scrollbars */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: #F2EDE4; }
-::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #BF5A36; }
+::-webkit-scrollbar-thumb { background: #FF914D; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #FF914D; }
 
 /* Leaflet map custom fixes */
 .leaflet-container {
-  font-family: 'Plus Jakarta Sans', 'Noto Sans Khmer', sans-serif !important;
+  font-family: 'Plus Jakarta Sans', 'Kantumruy Pro', sans-serif !important;
   z-index: 10 !important;
   border-radius: 1.25rem;
 }

@@ -46,13 +46,13 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentPage, onNavigate, s
             key={item.key}
             onClick={item.onClick}
             className={`relative flex flex-col items-center justify-center gap-0.5 py-2 cursor-pointer transition-colors ${
-              item.active ? 'text-[#BF5A36]' : 'text-[#8C7A70]'
+              item.active ? 'text-[#FF914D]' : 'text-[#8C7A70]'
             }`}
           >
             <span className="relative">
               {item.icon}
               {item.badge ? (
-                <span className="absolute -top-1.5 -right-2 bg-[#BF5A36] text-white text-[9px] font-bold min-w-4 h-4 px-1 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-2 bg-[#FF914D] text-white text-[9px] font-bold min-w-4 h-4 px-1 rounded-full flex items-center justify-center">
                   {item.badge}
                 </span>
               ) : null}

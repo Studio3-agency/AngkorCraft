@@ -21,7 +21,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
   const [show, setShow] = useState(false);
   return (
     <div className="relative">
-      <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#BF5A36]" />
+      <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF914D]" />
       <input
         type={show ? 'text' : 'password'}
         required={required}
@@ -30,12 +30,12 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
         autoComplete={autoComplete}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-11 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#BF5A36]"
+        className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-11 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D]"
       />
       <button
         type="button"
         onClick={() => setShow((s) => !s)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C7A70] hover:text-[#BF5A36] cursor-pointer p-1"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C7A70] hover:text-[#FF914D] cursor-pointer p-1"
         aria-label={show ? 'Hide password' : 'Show password'}
         tabIndex={-1}
       >

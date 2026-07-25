@@ -46,7 +46,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ value, publicId, folde
           {value ? (
             <img src={value} alt="preview" className="w-full h-full object-cover" />
           ) : (
-            <ImagePlus className="w-6 h-6 text-[#BF5A36]/50" />
+            <ImagePlus className="w-6 h-6 text-[#FF914D]/50" />
           )}
         </div>
         <div className="space-y-2">
@@ -66,7 +66,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ value, publicId, folde
                 if (publicId) deleteMedia(publicId).catch(() => {});
                 onChange('', null);
               }}
-              className="flex items-center gap-1 text-[#BF5A36] text-xs font-semibold cursor-pointer hover:underline"
+              className="flex items-center gap-1 text-[#FF914D] text-xs font-semibold cursor-pointer hover:underline"
             >
               <X className="w-3 h-3" /> Remove
             </button>

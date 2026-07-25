@@ -18,7 +18,25 @@ export default function PublicSite() {
   const { products, shops, loading } = useCatalog();
   const { savedProductIds, toggleSave, clearSaved } = useWishlist();
 
-  const [currentPage, setCurrentPage] = useState<PageType>('home');
+  const [currentPage, setCurrentPage] = useState<PageType>(() => {
+    const hash = window.location.hash.replace('#', '') as PageType;
+    return ['home', 'products', 'locations', 'guide', 'saved'].includes(hash) ? hash : 'home';
+  });
+
+  useEffect(() => {
+    window.location.hash = currentPage;
+  }, [currentPage]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '') as PageType;
+      if (['home', 'products', 'locations', 'guide', 'saved'].includes(hash)) {
+        setCurrentPage(hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedShopId, setSelectedShopId] = useState<string | null>(null);
   const [filterShopId, setFilterShopId] = useState<string | null>(null);
@@ -61,7 +79,7 @@ export default function PublicSite() {
       <main className="flex-1 pb-20 md:pb-0">
         {loading && (
           <div className="max-w-7xl mx-auto px-4 py-20 text-center text-[#8C7A70]">
-            <div className="inline-block w-8 h-8 border-3 border-[#BF5A36]/30 border-t-[#BF5A36] rounded-full animate-spin mb-4" />
+            <div className="inline-block w-8 h-8 border-3 border-[#FF914D]/30 border-t-[#FF914D] rounded-full animate-spin mb-4" />
             <p className="text-sm font-medium">Loading authentic Cambodian crafts…</p>
           </div>
         )}

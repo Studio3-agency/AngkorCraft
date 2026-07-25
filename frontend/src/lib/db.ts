@@ -7,6 +7,9 @@ import {
   UserRole,
   ShopStatus,
   SubscriptionStatus,
+  ContentReport,
+  Review,
+  PublicProfile,
 } from '../types';
 
 /**
@@ -28,6 +31,17 @@ export interface ShopRow {
   payment_methods: Shop['paymentMethods'];
   phone: string;
   google_maps_url: string;
+  instagram: string;
+  telegram: string;
+  wechat: string;
+  messenger: string;
+  facebook: string;
+  tiktok: string;
+  whatsapp: string;
+  website: string;
+  email: string;
+  contact_note: string;
+  slug: string | null;
   rating: number;
   review_count: number;
   image_url: string;
@@ -37,6 +51,7 @@ export interface ShopRow {
   is_verified: boolean;
   featured_product_ids: string[];
   status: ShopStatus;
+  moderation_status: Shop['moderationStatus'];
   is_featured: boolean;
   featured_until: string | null;
   subscription_status: SubscriptionStatus;
@@ -73,6 +88,7 @@ export interface ProductRow {
   material: string;
   is_popular: boolean;
   is_featured: boolean;
+  moderation_status: Product['moderationStatus'];
   vertical: string;
   created_at: string;
 }
@@ -103,6 +119,17 @@ export function mapShop(row: ShopRow): Shop {
     paymentMethods: row.payment_methods ?? [],
     phone: row.phone,
     googleMapsUrl: row.google_maps_url,
+    instagram: row.instagram ?? '',
+    telegram: row.telegram ?? '',
+    wechat: row.wechat ?? '',
+    messenger: row.messenger ?? '',
+    facebook: row.facebook ?? '',
+    tiktok: row.tiktok ?? '',
+    whatsapp: row.whatsapp ?? '',
+    website: row.website ?? '',
+    email: row.email ?? '',
+    contactNote: row.contact_note ?? '',
+    slug: row.slug ?? undefined,
     rating: row.rating,
     reviewCount: row.review_count,
     image: row.image_url,
@@ -111,6 +138,7 @@ export function mapShop(row: ShopRow): Shop {
     descriptionKh: row.description_kh,
     isVerified: row.is_verified,
     featuredProductIds: row.featured_product_ids ?? [],
+    moderationStatus: row.moderation_status ?? 'approved',
     ownerId: row.owner_id,
     status: row.status,
     isFeatured: row.is_featured,
@@ -149,6 +177,7 @@ export function mapProduct(row: ProductRow): Product {
     material: row.material,
     isPopular: row.is_popular,
     isFeatured: row.is_featured,
+    moderationStatus: row.moderation_status ?? 'approved',
     ownerId: row.owner_id,
     ownerShopId: row.owner_shop_id,
     vertical: row.vertical,
@@ -156,15 +185,49 @@ export function mapProduct(row: ProductRow): Product {
   };
 }
 
-export function mapProfile(row: ProfileRow): Profile {
+export function mapProfile(row: ProfileRow & { bio?: string | null }): Profile {
   return {
     id: row.id,
     role: row.role,
     fullName: row.full_name,
     phone: row.phone,
     avatarUrl: row.avatar_url,
+    bio: row.bio ?? '',
     createdAt: row.created_at,
   };
+}
+
+export interface ReviewRow {
+  id: string;
+  shop_id: string;
+  user_id: string;
+  author_name: string | null;
+  author_avatar: string | null;
+  rating: number;
+  comment: string | null;
+  created_at: string;
+}
+
+export function mapReview(row: ReviewRow): Review {
+  return {
+    id: row.id,
+    shopId: row.shop_id,
+    userId: row.user_id,
+    authorName: row.author_name ?? '',
+    authorAvatar: row.author_avatar ?? '',
+    rating: row.rating,
+    comment: row.comment ?? '',
+    createdAt: row.created_at,
+  };
+}
+
+export function mapPublicProfile(row: {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+}): PublicProfile {
+  return { id: row.id, fullName: row.full_name, avatarUrl: row.avatar_url, bio: row.bio };
 }
 
 // ---------- App type -> Row (for inserts/updates) ----------
@@ -185,6 +248,17 @@ export function shopToRow(shop: Partial<Shop>): Partial<ShopRow> {
   if (shop.paymentMethods !== undefined) row.payment_methods = shop.paymentMethods;
   if (shop.phone !== undefined) row.phone = shop.phone;
   if (shop.googleMapsUrl !== undefined) row.google_maps_url = shop.googleMapsUrl;
+  if (shop.instagram !== undefined) row.instagram = shop.instagram;
+  if (shop.telegram !== undefined) row.telegram = shop.telegram;
+  if (shop.wechat !== undefined) row.wechat = shop.wechat;
+  if (shop.messenger !== undefined) row.messenger = shop.messenger;
+  if (shop.facebook !== undefined) row.facebook = shop.facebook;
+  if (shop.tiktok !== undefined) row.tiktok = shop.tiktok;
+  if (shop.whatsapp !== undefined) row.whatsapp = shop.whatsapp;
+  if (shop.website !== undefined) row.website = shop.website;
+  if (shop.email !== undefined) row.email = shop.email;
+  if (shop.contactNote !== undefined) row.contact_note = shop.contactNote;
+  if (shop.slug !== undefined) row.slug = shop.slug;
   if (shop.rating !== undefined) row.rating = shop.rating;
   if (shop.reviewCount !== undefined) row.review_count = shop.reviewCount;
   if (shop.image !== undefined) row.image_url = shop.image;
@@ -233,6 +307,32 @@ export function productToRow(product: Partial<Product>): Partial<ProductRow> {
   if (product.isFeatured !== undefined) row.is_featured = product.isFeatured;
   if (product.vertical !== undefined) row.vertical = product.vertical;
   return row;
+}
+
+export interface ContentReportRow {
+  id: string;
+  target_type: 'product' | 'shop';
+  target_id: string;
+  reason: string;
+  note: string | null;
+  reporter_id: string | null;
+  reporter_email: string | null;
+  status: ContentReport['status'];
+  created_at: string;
+}
+
+export function mapContentReport(row: ContentReportRow): ContentReport {
+  return {
+    id: row.id,
+    targetType: row.target_type,
+    targetId: row.target_id,
+    reason: row.reason,
+    note: row.note ?? '',
+    reporterId: row.reporter_id,
+    reporterEmail: row.reporter_email ?? '',
+    status: row.status,
+    createdAt: row.created_at,
+  };
 }
 
 export function mapTransaction(row: {

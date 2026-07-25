@@ -2,7 +2,32 @@ import React, { useState } from 'react';
 import { Product, ProductCategory, Region } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { ProductCard } from '../components/ProductCard';
-import { Search, Filter, RefreshCw, SlidersHorizontal, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { CustomSelect } from '../components/CustomSelect';
+import { Search, Filter, RefreshCw, SlidersHorizontal, ShieldCheck, Sparkles, X, ArrowUpDown, ShoppingBag } from 'lucide-react';
+
+type ProductSort = 'popular' | 'priceLow' | 'priceHigh' | 'rating' | 'newest' | 'name';
+const PRODUCT_SORTS: { value: ProductSort; tk: string }[] = [
+  { value: 'popular', tk: 'sortPopular' },
+  { value: 'rating', tk: 'sortRating' },
+  { value: 'priceLow', tk: 'sortPriceLow' },
+  { value: 'priceHigh', tk: 'sortPriceHigh' },
+  { value: 'newest', tk: 'sortNewest' },
+  { value: 'name', tk: 'sortName' },
+];
+
+function sortProducts(list: Product[], sort: ProductSort): Product[] {
+  const arr = [...list];
+  const score = (p: Product) => (p.rating || 0) * Math.log10((p.reviewCount || 0) + 10) + (p.isPopular ? 1 : 0);
+  switch (sort) {
+    case 'priceLow': return arr.sort((a, b) => (a.priceUsd || 0) - (b.priceUsd || 0));
+    case 'priceHigh': return arr.sort((a, b) => (b.priceUsd || 0) - (a.priceUsd || 0));
+    case 'rating': return arr.sort((a, b) => b.rating - a.rating);
+    case 'newest': return arr.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+    case 'name': return arr.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    case 'popular':
+    default: return arr.sort((a, b) => score(b) - score(a));
+  }
+}
 
 interface ProductsPageProps {
   products: Product[];
@@ -36,6 +61,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
   const [isGiOnly, setIsGiOnly] = useState<boolean>(false);
   const [isHandmadeOnly, setIsHandmadeOnly] = useState<boolean>(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState<boolean>(false);
+  const [sortBy, setSortBy] = useState<ProductSort>('popular');
 
   const categories: ProductCategory[] = [
     'All',
@@ -92,6 +118,8 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
     return true;
   });
 
+  const displayProducts = sortProducts(filteredProducts, sortBy);
+
   const resetFilters = () => {
     onSearchChange('');
     onSelectCategory('All');
@@ -115,20 +143,31 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
       {/* Header Banner */}
-      <div className="bg-[#134E4A] text-white p-6 sm:p-8 rounded-3xl border border-[#D4AF37]/30 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-[#134E4A] text-white p-6 sm:p-8 rounded-3xl border border-[#F5C542]/30 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.25em]">{t('productDirectory')}</span>
+          <div className="flex items-center gap-2 text-xs font-bold text-[#F5C542] uppercase tracking-[0.25em]">
+            <ShoppingBag className="w-4 h-4 text-[#F5C542]" />
+            <span>{t('productDirectory')}</span>
+          </div>
           <h1 className="font-sans font-bold text-2xl sm:text-4xl text-white mt-1">
-            {t('productDirectoryTitle')}
+            {t('authenticProductsTitle')}
           </h1>
           <p className="text-xs sm:text-sm text-[#F2EDE4]/80 mt-1 max-w-xl">
             {t('productDirectoryDesc')}
           </p>
         </div>
 
+        <div className="bg-white/10 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/20 text-xs text-[#F5C542] space-y-1">
+          <div className="font-bold flex items-center gap-1.5 uppercase tracking-wider text-xs">
+            <ShieldCheck className="w-4 h-4 text-[#F5C542]" />
+            <span>{t('verifiedAuthentic')}</span>
+          </div>
+          <p className="text-xs text-[#F2EDE4]/80">{t('authenticProductsTitle')}</p>
+        </div>
+
         <button
           onClick={() => setMobileFilterOpen(true)}
-          className="lg:hidden bg-[#BF5A36] text-white px-5 py-3 rounded-full font-bold text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer shadow-md"
+          className="lg:hidden bg-[#FF914D] text-white px-5 py-3 rounded-full font-bold text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer shadow-md"
         >
           <SlidersHorizontal className="w-4 h-4" />
           <span>{t('filters')} ({filteredProducts.length})</span>
@@ -142,13 +181,13 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
         <aside className="hidden lg:block bg-white p-6 rounded-3xl border border-[#E8DEC8] shadow-xs space-y-6 sticky top-24">
           <div className="flex items-center justify-between border-b border-[#134E4A]/10 pb-3">
             <h2 className="font-sans font-bold text-base text-[#134E4A] uppercase tracking-wider flex items-center gap-2">
-              <Filter className="w-4 h-4 text-[#BF5A36]" />
+              <Filter className="w-4 h-4 text-[#FF914D]" />
               {t('filters')}
             </h2>
             {hasActiveFilters && (
               <button
                 onClick={resetFilters}
-                className="text-xs font-bold text-[#BF5A36] hover:underline flex items-center gap-1 cursor-pointer uppercase tracking-wider"
+                className="text-xs font-bold text-[#FF914D] hover:underline flex items-center gap-1 cursor-pointer uppercase tracking-wider"
               >
                 <RefreshCw className="w-3 h-3" />
                 {t('reset')}
@@ -158,24 +197,24 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
 
           {/* Search Field */}
           <div>
-            <label className="block text-[10px] font-bold text-[#BF5A36] uppercase tracking-[0.2em] mb-1.5">
+            <label className="block text-xs font-bold text-[#FF914D] uppercase tracking-[0.2em] mb-1.5">
               {t('keywordSearch')}
             </label>
             <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#BF5A36]" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#FF914D]" />
               <input
                 type="text"
                 placeholder={t('searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full bg-[#F2EDE4] border border-[#134E4A]/10 rounded-full pl-9 pr-3 py-2 text-xs text-[#2D2926] placeholder:text-[#8C7A70] focus:outline-none focus:ring-2 focus:ring-[#BF5A36]"
+                className="w-full bg-[#F2EDE4] border border-[#134E4A]/10 rounded-full pl-9 pr-3 py-2 text-xs text-[#2D2926] placeholder:text-[#8C7A70] focus:outline-none focus:ring-2 focus:ring-[#FF914D]"
               />
             </div>
           </div>
 
           {/* Category Filter */}
           <div>
-            <label className="block text-[10px] font-bold text-[#BF5A36] uppercase tracking-[0.2em] mb-1.5">
+            <label className="block text-xs font-bold text-[#FF914D] uppercase tracking-[0.2em] mb-1.5">
               {t('category')}
             </label>
             <div className="space-y-1 text-xs">
@@ -185,7 +224,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
                   onClick={() => onSelectCategory(cat)}
                   className={`w-full text-left px-3.5 py-2 rounded-full transition-all cursor-pointer ${
                     selectedCategory === cat
-                      ? 'bg-[#BF5A36] text-white font-bold shadow-xs'
+                      ? 'bg-[#FF914D] text-white font-bold shadow-xs'
                       : 'text-[#2D2926] hover:bg-[#F2EDE4]'
                   }`}
                 >
@@ -197,7 +236,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
 
           {/* Region Filter */}
           <div>
-            <label className="block text-[10px] font-bold text-[#BF5A36] uppercase tracking-[0.2em] mb-1.5">
+            <label className="block text-xs font-bold text-[#FF914D] uppercase tracking-[0.2em] mb-1.5">
               {t('regionOfOrigin')}
             </label>
             <div className="space-y-1 text-xs">
@@ -218,22 +257,33 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
           </div>
 
           {/* Price Level */}
-          <div>
-            <label className="block text-[10px] font-bold text-[#BF5A36] uppercase tracking-[0.2em] mb-1.5">
+          <div className="space-y-2.5">
+            <label className="block text-xs font-bold text-[#FF914D] uppercase tracking-[0.2em]">
               {t('priceLevel')}
             </label>
-            <div className="grid grid-cols-4 gap-1.5 text-xs font-bold">
-              {['All', '$', '$$', '$$$'].map((lvl) => (
+            {/* "All" gets its own full-width row so the (wider) Khmer label breathes. */}
+            <button
+              onClick={() => setSelectedPriceLevel('All')}
+              className={`w-full py-2.5 rounded-full border text-xs font-bold transition-colors cursor-pointer ${
+                selectedPriceLevel === 'All'
+                  ? 'bg-[#134E4A] text-white border-[#134E4A]'
+                  : 'bg-[#F2EDE4] text-[#2D2926] border-[#134E4A]/10 hover:bg-[#E8DEC8]'
+              }`}
+            >
+              {translateRegion('All Regions').split(' ')[0]}
+            </button>
+            <div className="grid grid-cols-3 gap-2.5 text-sm font-bold">
+              {['$', '$$', '$$$'].map((lvl) => (
                 <button
                   key={lvl}
                   onClick={() => setSelectedPriceLevel(lvl)}
-                  className={`py-1.5 rounded-full border transition-colors cursor-pointer ${
+                  className={`py-2.5 rounded-full border transition-colors cursor-pointer ${
                     selectedPriceLevel === lvl
                       ? 'bg-[#134E4A] text-white border-[#134E4A]'
                       : 'bg-[#F2EDE4] text-[#2D2926] border-[#134E4A]/10 hover:bg-[#E8DEC8]'
                   }`}
                 >
-                  {lvl === 'All' ? translateRegion('All Regions').split(' ')[0] : lvl}
+                  {lvl}
                 </button>
               ))}
             </div>
@@ -246,10 +296,10 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
                 type="checkbox"
                 checked={isGiOnly}
                 onChange={(e) => setIsGiOnly(e.target.checked)}
-                className="rounded border-[#BF5A36] text-[#BF5A36] focus:ring-[#BF5A36] w-4 h-4"
+                className="rounded border-[#FF914D] text-[#FF914D] focus:ring-[#FF914D] w-4 h-4"
               />
               <span className="flex items-center gap-1 font-bold text-[#134E4A]">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#FF914D]" />
                 {t('giPgiOnly')}
               </span>
             </label>
@@ -259,9 +309,9 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
                 type="checkbox"
                 checked={isHandmadeOnly}
                 onChange={(e) => setIsHandmadeOnly(e.target.checked)}
-                className="rounded border-[#BF5A36] text-[#BF5A36] focus:ring-[#BF5A36] w-4 h-4"
+                className="rounded border-[#FF914D] text-[#FF914D] focus:ring-[#FF914D] w-4 h-4"
               />
-              <span className="flex items-center gap-1 font-bold text-[#BF5A36]">
+              <span className="flex items-center gap-1 font-bold text-[#FF914D]">
                 <Sparkles className="w-3.5 h-3.5" />
                 {t('handmadeOnly')}
               </span>
@@ -275,26 +325,26 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
           {/* Active Filter Badges */}
           {hasActiveFilters && (
             <div className="bg-[#F2EDE4] p-3.5 rounded-2xl border border-[#134E4A]/10 flex flex-wrap items-center gap-2 text-xs">
-              <span className="font-bold text-[#BF5A36] uppercase text-[10px] tracking-wider">{t('activeFilters')}:</span>
+              <span className="font-bold text-[#FF914D] uppercase text-xs tracking-wider">{t('activeFilters')}:</span>
 
               {searchQuery && (
                 <span className="bg-white px-3 py-1 rounded-full border border-[#134E4A]/10 text-[#2D2926] font-semibold flex items-center gap-1">
                   Search: "{searchQuery}"
-                  <button onClick={() => onSearchChange('')} className="hover:text-[#BF5A36]"><X className="w-3 h-3" /></button>
+                  <button onClick={() => onSearchChange('')} className="hover:text-[#FF914D]"><X className="w-3 h-3" /></button>
                 </span>
               )}
 
               {selectedCategory !== 'All' && (
                 <span className="bg-white px-3 py-1 rounded-full border border-[#134E4A]/10 text-[#2D2926] font-semibold flex items-center gap-1">
                   {t('category')}: {translateCategory(selectedCategory)}
-                  <button onClick={() => onSelectCategory('All')} className="hover:text-[#BF5A36]"><X className="w-3 h-3" /></button>
+                  <button onClick={() => onSelectCategory('All')} className="hover:text-[#FF914D]"><X className="w-3 h-3" /></button>
                 </span>
               )}
 
               {selectedRegion !== 'All Regions' && (
                 <span className="bg-white px-3 py-1 rounded-full border border-[#134E4A]/10 text-[#2D2926] font-semibold flex items-center gap-1">
                   {t('regionOfOrigin')}: {translateRegion(selectedRegion)}
-                  <button onClick={() => setSelectedRegion('All Regions')} className="hover:text-[#BF5A36]"><X className="w-3 h-3" /></button>
+                  <button onClick={() => setSelectedRegion('All Regions')} className="hover:text-[#FF914D]"><X className="w-3 h-3" /></button>
                 </span>
               )}
 
@@ -302,30 +352,39 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
                 <span className="bg-[#134E4A] text-white px-3 py-1 rounded-full font-semibold flex items-center gap-1">
                   Filtered by Specific Shop
                   {onClearShopFilter && (
-                    <button onClick={onClearShopFilter} className="hover:text-[#D4AF37]"><X className="w-3 h-3" /></button>
+                    <button onClick={onClearShopFilter} className="hover:text-[#FF914D]"><X className="w-3 h-3" /></button>
                   )}
                 </span>
               )}
 
               <button
                 onClick={resetFilters}
-                className="text-xs text-[#BF5A36] font-bold uppercase tracking-wider underline ml-auto hover:text-[#a34b2c] cursor-pointer"
+                className="text-xs text-[#FF914D] font-bold uppercase tracking-wider underline ml-auto hover:text-[#F07A33] cursor-pointer"
               >
                 {t('clearAll')}
               </button>
             </div>
           )}
 
-          {/* Results Summary */}
-          <div className="flex items-center justify-between text-xs text-[#5C4D44] font-semibold uppercase tracking-wider">
-            <span>{t('showingCount').replace('{count}', filteredProducts.length.toString())}</span>
-            <span>{t('sortedByPopularity')}</span>
+          {/* Results Summary + Sort */}
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs text-[#5C4D44] font-semibold uppercase tracking-wider">
+              {t('showingCount').replace('{count}', displayProducts.length.toString())}
+            </span>
+            <div>
+              <CustomSelect
+                value={sortBy}
+                onChange={(val) => setSortBy(val as ProductSort)}
+                options={PRODUCT_SORTS.map(s => ({ label: t(s.tk), value: s.value }))}
+                icon={<ArrowUpDown className="w-3.5 h-3.5 text-[#FF914D]" />}
+              />
+            </div>
           </div>
 
           {/* Grid */}
-          {filteredProducts.length > 0 ? (
+          {displayProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
+              {displayProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
@@ -337,7 +396,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
             </div>
           ) : (
             <div className="bg-white p-12 rounded-3xl border border-[#E8DEC8] text-center space-y-4">
-              <div className="w-16 h-16 bg-[#F2ECE1] text-[#BF5A36] rounded-full flex items-center justify-center mx-auto text-2xl font-sans">
+              <div className="w-16 h-16 bg-[#F2ECE1] text-[#FF914D] rounded-full flex items-center justify-center mx-auto text-2xl font-sans">
                 ?
               </div>
               <h3 className="font-sans font-bold text-xl text-[#2D2926]">
@@ -348,7 +407,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
               </p>
               <button
                 onClick={resetFilters}
-                className="bg-[#BF5A36] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-colors hover:bg-[#a34b2c] cursor-pointer"
+                className="bg-[#FF914D] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-colors hover:bg-[#F07A33] cursor-pointer"
               >
                 {t('reset')}
               </button>
@@ -381,7 +440,7 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({
                     key={cat}
                     onClick={() => onSelectCategory(cat)}
                     className={`text-left px-3 py-2 rounded-xl font-medium ${
-                      selectedCategory === cat ? 'bg-[#BF5A36] text-white' : 'bg-[#F2EDE4] text-[#2D2926]'
+                      selectedCategory === cat ? 'bg-[#FF914D] text-white' : 'bg-[#F2EDE4] text-[#2D2926]'
                     }`}
                   >
                     {translateCategory(cat)}

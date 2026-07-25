@@ -34,7 +34,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({ lat, lng, onChan
 
     const icon = L.divIcon({
       className: 'ac-pin',
-      html: '<div style="width:26px;height:26px;background:#BF5A36;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>',
+      html: '<div style="width:26px;height:26px;background:#FF914D;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>',
       iconSize: [26, 26],
       iconAnchor: [13, 26],
     });
@@ -104,7 +104,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({ lat, lng, onChan
         {!hasPin && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="bg-white/90 text-[#134E4A] text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow">
-              <MapPin className="w-3.5 h-3.5 text-[#BF5A36]" />
+              <MapPin className="w-3.5 h-3.5 text-[#FF914D]" />
               {t('locationTapHint')}
             </div>
           </div>

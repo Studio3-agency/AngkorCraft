@@ -4,6 +4,9 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { SignupPage } from './pages/auth/SignupPage';
 import { MerchantApp } from './pages/merchant/MerchantApp';
 import { AdminApp } from './pages/admin/AdminApp';
+import { StorePage } from './pages/StorePage';
+import { ContentPolicyPage } from './pages/ContentPolicyPage';
+import { ProfilePage } from './pages/ProfilePage';
 import { RequireRole } from './components/RequireRole';
 
 export default function App() {
@@ -29,6 +32,11 @@ export default function App() {
           </RequireRole>
         }
       />
+
+      {/* Individual, shareable store page. */}
+      <Route path="/shop/:slug" element={<StorePage />} />
+      <Route path="/guidelines" element={<ContentPolicyPage />} />
+      <Route path="/account" element={<ProfilePage />} />
 
       {/* Public marketing + catalog site handles everything else. */}
       <Route path="/*" element={<PublicSite />} />

@@ -8,20 +8,23 @@ export const cloudinaryRouter = Router();
 /**
  * POST /api/cloudinary/sign
  * Returns a signature so the browser can upload directly to Cloudinary without
- * ever seeing the API secret. Merchants and admins only.
+ * ever seeing the API secret. Any signed-in user (merchants/admins for shop &
+ * product media; customers for their profile avatar). Rate-limited upstream.
  */
 cloudinaryRouter.post(
   '/sign',
   authenticate,
-  requireRole('merchant', 'admin'),
   (req: AuthedRequest, res) => {
     const folder = typeof req.body?.folder === 'string' ? req.body.folder : 'angkorcraft';
     const timestamp = Math.round(Date.now() / 1000);
-    const signature = cloudinary.utils.api_sign_request(
-      { timestamp, folder },
-      env.cloudinary.apiSecret,
-    );
-    res.json({ signature, timestamp, apiKey: env.cloudinary.apiKey, folder });
+    // When automated moderation is configured, sign it into the upload so
+    // Cloudinary screens each image. The signature must cover every param the
+    // browser sends, so we echo `moderation` back for the client to include.
+    const moderation = env.cloudinary.moderation;
+    const params: Record<string, string | number> = { timestamp, folder };
+    if (moderation) params.moderation = moderation;
+    const signature = cloudinary.utils.api_sign_request(params, env.cloudinary.apiSecret);
+    res.json({ signature, timestamp, apiKey: env.cloudinary.apiKey, folder, moderation });
   },
 );
 

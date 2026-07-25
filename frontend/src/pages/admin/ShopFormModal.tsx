@@ -32,6 +32,18 @@ const REGIONS: Region[] = [
 
 const PAYMENTS: Shop['paymentMethods'] = ['ABA Pay', 'Cash (USD/KHR)', 'Credit Card', 'Bakong QR'];
 
+// Social handles — platform names are universal, so no translation needed.
+type SocialKey = 'telegram' | 'whatsapp' | 'messenger' | 'instagram' | 'facebook' | 'tiktok' | 'wechat';
+const SOCIAL_FIELDS: { key: SocialKey; label: string }[] = [
+  { key: 'telegram', label: 'Telegram' },
+  { key: 'whatsapp', label: 'WhatsApp' },
+  { key: 'messenger', label: 'Messenger' },
+  { key: 'instagram', label: 'Instagram' },
+  { key: 'facebook', label: 'Facebook' },
+  { key: 'tiktok', label: 'TikTok' },
+  { key: 'wechat', label: 'WeChat' },
+];
+
 interface Props {
   shop: Shop | null;
   ownerId?: string | null;
@@ -40,7 +52,7 @@ interface Props {
 }
 
 const inputCls =
-  'w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl px-3.5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#BF5A36]';
+  'w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl px-3.5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D]';
 const labelCls = 'block text-xs font-semibold text-[#134E4A] mb-1.5';
 
 export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved }) => {
@@ -125,8 +137,6 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
         </div>
 
         <form onSubmit={handleSubmit} className="px-6 sm:px-8 py-6 space-y-6">
-          {error && <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg p-3">{error}</div>}
-
           <div>
             <label className={labelCls}>{t('shopPhoto')}</label>
             <ImageUpload
@@ -168,7 +178,7 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
           {/* Location — map pin, no coordinates shown */}
           <div className="bg-[#FAF7F2] border border-[#E8DEC8] rounded-2xl p-4 sm:p-5 space-y-4">
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#BF5A36]" />
+              <MapPin className="w-4 h-4 text-[#FF914D]" />
               <h3 className="text-sm font-bold text-[#134E4A]">{t('locationSection')}</h3>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -197,6 +207,40 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
             <PhoneInput value={form.phone ?? ''} onChange={(v) => set('phone', v)} placeholder="12 345 678" />
           </div>
 
+          {/* Contact & social channels */}
+          <div className="bg-[#FAF7F2] border border-[#E8DEC8] rounded-2xl p-4 sm:p-5 space-y-4">
+            <div>
+              <h3 className="text-sm font-bold text-[#134E4A]">{t('contactSection')}</h3>
+              <p className="text-xs text-[#8C7A70] mt-0.5">{t('contactSectionHint')}</p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {SOCIAL_FIELDS.map(({ key, label }) => (
+                <div key={key}>
+                  <label className={labelCls}>{label}</label>
+                  <input
+                    autoComplete="off"
+                    className={inputCls}
+                    value={(form[key] as string) ?? ''}
+                    onChange={(e) => set(key, e.target.value)}
+                    placeholder={t('handlePlaceholder')}
+                  />
+                </div>
+              ))}
+              <div>
+                <label className={labelCls}>{t('websiteLabel')}</label>
+                <input autoComplete="off" className={inputCls} value={form.website ?? ''} onChange={(e) => set('website', e.target.value)} placeholder="https://…" />
+              </div>
+              <div>
+                <label className={labelCls}>{t('emailLabel')}</label>
+                <input autoComplete="off" type="email" className={inputCls} value={form.email ?? ''} onChange={(e) => set('email', e.target.value)} placeholder="shop@example.com" />
+              </div>
+            </div>
+            <div>
+              <label className={labelCls}>{t('contactNoteLabel')} <span className="text-[#8C7A70] font-normal">({t('optionalHint')})</span></label>
+              <input autoComplete="off" className={inputCls} value={form.contactNote ?? ''} onChange={(e) => set('contactNote', e.target.value)} placeholder={t('contactNotePlaceholder')} />
+            </div>
+          </div>
+
           <div>
             <label className={labelCls}>{t('paymentMethodsLabel')}</label>
             <div className="flex flex-wrap gap-2">
@@ -208,7 +252,7 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
                   className={`text-xs font-semibold px-3.5 py-2 rounded-full border cursor-pointer transition-colors ${
                     (form.paymentMethods ?? []).includes(pm)
                       ? 'bg-[#134E4A] text-white border-[#134E4A]'
-                      : 'border-[#E8DEC8] text-[#8C7A70] hover:border-[#BF5A36]/40'
+                      : 'border-[#E8DEC8] text-[#8C7A70] hover:border-[#FF914D]/40'
                   }`}
                 >
                   {pm}
@@ -222,6 +266,10 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
             <textarea rows={3} className={inputCls} value={form.description ?? ''} onChange={(e) => set('description', e.target.value)} placeholder="…" />
           </div>
 
+          {/* Error shown right next to the actions — no need to scroll up. */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg p-3">{error}</div>
+          )}
           <div className="flex justify-end gap-3 pt-1">
             <button type="button" onClick={onClose} className="px-5 py-2.5 text-sm font-semibold text-[#8C7A70] hover:bg-[#F2EDE4] rounded-xl cursor-pointer">
               {t('cancel')}
@@ -229,7 +277,7 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
             <button
               type="submit"
               disabled={saving}
-              className="flex items-center gap-2 bg-[#BF5A36] hover:bg-[#a94d2d] disabled:opacity-60 text-white text-sm font-semibold px-6 py-2.5 rounded-xl cursor-pointer"
+              className="flex items-center gap-2 bg-[#FF914D] hover:bg-[#F07A33] disabled:opacity-60 text-white text-sm font-semibold px-6 py-2.5 rounded-xl cursor-pointer"
             >
               {saving && <Loader2 className="w-4 h-4 animate-spin" />}
               {isNew ? t('createShop') : t('saveChanges')}

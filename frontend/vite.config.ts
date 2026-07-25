@@ -11,12 +11,12 @@ export default defineConfig(() => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['apple-touch-icon.png'],
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
         manifest: {
           name: 'AngkorCraft — Cambodian Artisan Marketplace',
           short_name: 'AngkorCraft',
           description: 'Discover authentic Cambodian artisans — handmade silk, GI Kampot pepper, silverwork, and woodcarving.',
-          theme_color: '#BF5A36',
+          theme_color: '#FF914D',
           background_color: '#FAF7F2',
           display: 'standalone',
           start_url: '/',

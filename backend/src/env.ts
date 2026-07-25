@@ -34,9 +34,32 @@ function originMatcher(pattern: string): (origin: string) => boolean {
 
 const corsMatchers = corsOrigins.map(originMatcher);
 
-/** True when the given request Origin is permitted by CORS_ORIGINS. */
+/**
+ * Local development origins: localhost, 127.0.0.1, ::1, and private LAN ranges
+ * (so testing the app from a phone on the same Wi-Fi, or via 127.0.0.1, works).
+ * Safe to allow — CORS is not the security boundary here; every sensitive
+ * endpoint still requires a valid Supabase JWT + role.
+ */
+function isLocalOrigin(origin: string): boolean {
+  try {
+    const { hostname } = new URL(origin);
+    return (
+      hostname === 'localhost' ||
+      hostname === '127.0.0.1' ||
+      hostname === '::1' ||
+      hostname === '0.0.0.0' ||
+      /^10\./.test(hostname) ||
+      /^192\.168\./.test(hostname) ||
+      /^172\.(1[6-9]|2\d|3[01])\./.test(hostname)
+    );
+  } catch {
+    return false;
+  }
+}
+
+/** True when the given request Origin is permitted by CORS_ORIGINS or is local. */
 export function isOriginAllowed(origin: string): boolean {
-  return corsMatchers.some((match) => match(origin));
+  return isLocalOrigin(origin) || corsMatchers.some((match) => match(origin));
 }
 
 export const env = {
@@ -48,6 +71,10 @@ export const env = {
     cloudName: required('CLOUDINARY_CLOUD_NAME'),
     apiKey: required('CLOUDINARY_API_KEY'),
     apiSecret: required('CLOUDINARY_API_SECRET'),
+    // Optional automated image moderation. Set to e.g. 'aws_rek' (Amazon
+    // Rekognition AI Moderation add-on) or 'manual' to route every upload
+    // through Cloudinary's moderation queue. Empty = off (uploads go live).
+    moderation: process.env.CLOUDINARY_MODERATION?.trim() ?? '',
   },
 };
 

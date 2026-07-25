@@ -36,7 +36,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ isOpen, on
         {/* Header */}
         <div className="bg-[#134E4A] text-white p-5 sm:p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#D4AF37] text-[#134E4A] flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-full bg-[#FF914D] text-[#134E4A] flex items-center justify-center shadow-xs">
               <TrendingUp className="w-5 h-5" />
             </div>
             <div>
@@ -60,22 +60,22 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ isOpen, on
               ) : null}
             </div>
             <div className="font-sans font-bold text-2xl sm:text-3xl text-[#134E4A]">
-              $1 = <span className="text-[#BF5A36]">{Math.round(rate).toLocaleString()}</span> ៛
+              $1 = <span className="text-[#FF914D]">{Math.round(rate).toLocaleString()}</span> ៛
             </div>
           </div>
 
           {/* Reference calculator */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end bg-white p-4 rounded-2xl border border-[#E8DEC8]">
             <div>
-              <label className="block text-[10px] font-bold text-[#BF5A36] uppercase tracking-wider mb-1">{t('amountInUsd')}</label>
+              <label className="block text-[10px] font-bold text-[#FF914D] uppercase tracking-wider mb-1">{t('amountInUsd')}</label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 font-sans font-bold text-[#BF5A36] text-lg">$</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 font-sans font-bold text-[#FF914D] text-lg">$</span>
                 <input
                   type="number"
                   min="0"
                   value={usd}
                   onChange={(e) => setUsd(e.target.value)}
-                  className="w-full bg-[#FDF8F3] border border-[#E8DEC8] rounded-xl pl-8 pr-3 py-2.5 font-mono font-bold text-lg text-[#2D2926] focus:outline-none focus:ring-2 focus:ring-[#BF5A36]"
+                  className="w-full bg-[#FDF8F3] border border-[#E8DEC8] rounded-xl pl-8 pr-3 py-2.5 font-mono font-bold text-lg text-[#2D2926] focus:outline-none focus:ring-2 focus:ring-[#FF914D]"
                   placeholder="0"
                 />
               </div>
@@ -94,7 +94,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ isOpen, on
                 key={val}
                 onClick={() => setUsd(val.toString())}
                 className={`py-1.5 rounded-full font-bold text-xs transition-all cursor-pointer ${
-                  parseFloat(usd) === val ? 'bg-[#BF5A36] text-white' : 'bg-[#F2EDE4] text-[#2D2926] hover:bg-[#E8DEC8]'
+                  parseFloat(usd) === val ? 'bg-[#FF914D] text-white' : 'bg-[#F2EDE4] text-[#2D2926] hover:bg-[#E8DEC8]'
                 }`}
               >
                 ${val}
@@ -110,7 +110,7 @@ export const CurrencyConverter: React.FC<CurrencyConverterProps> = ({ isOpen, on
                 <div key={i} className="p-2.5 flex items-center justify-between">
                   <span className="font-medium text-[#2D2926]">{ref.item}</span>
                   <div className="text-right">
-                    <span className="font-bold font-mono text-[#BF5A36] block">${ref.usd.toFixed(2)}</span>
+                    <span className="font-bold font-mono text-[#FF914D] block">${ref.usd.toFixed(2)}</span>
                     <span className="text-[10px] font-mono text-[#8C7A70]">≈ {Math.round(ref.usd * rate).toLocaleString()} ៛</span>
                   </div>
                 </div>

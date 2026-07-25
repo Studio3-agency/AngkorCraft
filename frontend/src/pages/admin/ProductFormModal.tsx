@@ -66,6 +66,9 @@ export const ProductFormModal: React.FC<Props> = ({ product, shops, lockedShopId
   );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Merchants must confirm each listing follows the content guidelines.
+  const requireGuidelines = Boolean(ownerId);
+  const [accepted, setAccepted] = useState(false);
 
   const set = <K extends keyof Product>(key: K, value: Product[K]) => setForm((f) => ({ ...f, [key]: value }));
 
@@ -78,6 +81,10 @@ export const ProductFormModal: React.FC<Props> = ({ product, shops, lockedShopId
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (requireGuidelines && !accepted) {
+      setError(t('guidelinesRequired'));
+      return;
+    }
     setSaving(true);
     try {
       const payload: Partial<Product> = { ...form };
@@ -120,7 +127,7 @@ export const ProductFormModal: React.FC<Props> = ({ product, shops, lockedShopId
   };
 
   const inputCls =
-    'w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl px-3.5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#BF5A36]';
+    'w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl px-3.5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D]';
 
   const selectableShops = lockedShopId ? shops.filter((s) => s.id === lockedShopId) : shops;
 
@@ -138,8 +145,6 @@ export const ProductFormModal: React.FC<Props> = ({ product, shops, lockedShopId
         </div>
 
         <form onSubmit={handleSubmit} className="px-6 sm:px-8 py-6 space-y-5">
-          {error && <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg p-3">{error}</div>}
-
           <div>
             <label className="block text-xs font-semibold text-[#134E4A] mb-1.5">{t('productPhoto')}</label>
             <ImageUpload
@@ -272,19 +277,40 @@ export const ProductFormModal: React.FC<Props> = ({ product, shops, lockedShopId
                   type="checkbox"
                   checked={Boolean(form[key])}
                   onChange={(e) => set(key, e.target.checked as Product[typeof key])}
-                  className="accent-[#BF5A36]"
+                  className="accent-[#FF914D]"
                 />
                 {t(labelKey)}
               </label>
             ))}
           </div>
 
+          {requireGuidelines && (
+            <label className="flex items-start gap-2.5 bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl p-3.5 text-xs text-[#5C4D44] cursor-pointer">
+              <input
+                type="checkbox"
+                checked={accepted}
+                onChange={(e) => setAccepted(e.target.checked)}
+                className="accent-[#FF914D] mt-0.5 shrink-0"
+              />
+              <span>
+                {t('guidelinesGate').split('{link}')[0]}
+                <a href="/guidelines" target="_blank" rel="noopener noreferrer" className="text-[#FF914D] font-semibold underline">
+                  {t('guidelinesLink')}
+                </a>
+                {t('guidelinesGate').split('{link}')[1]}
+              </span>
+            </label>
+          )}
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg p-3">{error}</div>
+          )}
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" onClick={onClose} className="px-4 py-2 text-sm font-semibold text-[#8C7A70] cursor-pointer">{t('cancel')}</button>
             <button
               type="submit"
               disabled={saving}
-              className="flex items-center gap-2 bg-[#BF5A36] hover:bg-[#a94d2d] disabled:opacity-60 text-white text-sm font-semibold px-5 py-2 rounded-lg cursor-pointer"
+              className="flex items-center gap-2 bg-[#FF914D] hover:bg-[#F07A33] disabled:opacity-60 text-white text-sm font-semibold px-5 py-2 rounded-lg cursor-pointer"
             >
               {saving && <Loader2 className="w-4 h-4 animate-spin" />}
               {isNew ? t('createProduct') : t('saveChanges')}

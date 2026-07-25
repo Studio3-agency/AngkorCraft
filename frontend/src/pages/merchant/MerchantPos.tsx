@@ -91,13 +91,13 @@ export const MerchantPos: React.FC<{ data: MerchantData }> = ({ data }) => {
                 <button
                   key={p.id}
                   onClick={() => addItem(p.title, p.priceUsd)}
-                  className="bg-white rounded-xl border border-[#E8DEC8] hover:border-[#BF5A36] p-3 text-left cursor-pointer transition-colors"
+                  className="bg-white rounded-xl border border-[#E8DEC8] hover:border-[#FF914D] p-3 text-left cursor-pointer transition-colors"
                 >
                   <div className="h-20 bg-[#FAF7F2] rounded-lg overflow-hidden mb-2">
                     {p.image && <img src={p.image} alt="" className="w-full h-full object-cover" />}
                   </div>
                   <div className="text-xs font-semibold text-[#134E4A] line-clamp-1">{p.title}</div>
-                  <div className="text-xs text-[#BF5A36] font-bold">{formatUsd(p.priceUsd)}</div>
+                  <div className="text-xs text-[#FF914D] font-bold">{formatUsd(p.priceUsd)}</div>
                 </button>
               ))}
             </div>
@@ -107,7 +107,7 @@ export const MerchantPos: React.FC<{ data: MerchantData }> = ({ data }) => {
         {/* Cart */}
         <div className="bg-white rounded-2xl border border-[#E8DEC8] p-5 h-fit sticky top-24">
           <div className="flex items-center gap-2 mb-4">
-            <ShoppingCart className="w-4 h-4 text-[#BF5A36]" />
+            <ShoppingCart className="w-4 h-4 text-[#FF914D]" />
             <h3 className="font-semibold text-[#134E4A]">{t('posCurrentSale')}</h3>
           </div>
 
@@ -144,7 +144,7 @@ export const MerchantPos: React.FC<{ data: MerchantData }> = ({ data }) => {
           <select
             value={method}
             onChange={(e) => setMethod(e.target.value)}
-            className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-[#BF5A36]"
+            className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-[#FF914D]"
           >
             {PAYMENT_METHODS.map((m) => <option key={m} value={m}>{m}</option>)}
           </select>
@@ -152,13 +152,13 @@ export const MerchantPos: React.FC<{ data: MerchantData }> = ({ data }) => {
           <button
             onClick={recordSale}
             disabled={cart.length === 0 || saving}
-            className="w-full flex items-center justify-center gap-2 bg-[#BF5A36] hover:bg-[#a94d2d] disabled:opacity-50 text-white text-sm font-semibold py-2.5 rounded-lg cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 bg-[#FF914D] hover:bg-[#F07A33] disabled:opacity-50 text-white text-sm font-semibold py-2.5 rounded-lg cursor-pointer"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <DollarSign className="w-4 h-4" />}
             {t('posRecordSale')}
           </button>
           {cart.length > 0 && (
-            <button onClick={() => setCart([])} className="w-full mt-2 flex items-center justify-center gap-1 text-xs text-[#8C7A70] cursor-pointer hover:text-[#BF5A36]">
+            <button onClick={() => setCart([])} className="w-full mt-2 flex items-center justify-center gap-1 text-xs text-[#8C7A70] cursor-pointer hover:text-[#FF914D]">
               <Trash2 className="w-3 h-3" /> {t('posClear')}
             </button>
           )}
@@ -168,7 +168,7 @@ export const MerchantPos: React.FC<{ data: MerchantData }> = ({ data }) => {
       {/* Recent sales */}
       <div className="bg-white rounded-2xl border border-[#E8DEC8] overflow-hidden">
         <div className="px-6 py-4 border-b border-[#F2EDE4] flex items-center gap-2">
-          <Receipt className="w-4 h-4 text-[#BF5A36]" />
+          <Receipt className="w-4 h-4 text-[#FF914D]" />
           <h3 className="font-sans text-lg font-bold text-[#134E4A]">{t('posRecentSales')}</h3>
         </div>
         {posSales.length === 0 ? (

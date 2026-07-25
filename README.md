@@ -24,8 +24,12 @@ Unipreneur/
 
 ## Local setup (order matters)
 
-1. **Supabase** — create a free project. Run `backend/supabase/schema.sql` in the
-   SQL editor, then note your Project URL, `anon` key, and `service_role` key.
+1. **Supabase** — create a free project. In the SQL editor run, in order:
+   `backend/supabase/schema.sql`, then `backend/supabase/migration-bilingual.sql`,
+   then `backend/supabase/migration-contact-moderation.sql` (contact fields,
+   shareable store slugs, and content moderation), then
+   `backend/supabase/migration-quotas.sql` (per-merchant store/product caps).
+   Note your Project URL, `anon` key, and `service_role` key.
 2. **Cloudinary** — create a free account. Note your cloud name, API key, secret.
 3. **Backend**
    ```bash
@@ -59,6 +63,37 @@ Full credential walkthrough and the admin-promotion SQL snippet live in
 
 > Payments, subscriptions, and POS are **simulated** for the prototype — flows
 > work end-to-end and update real database state, but no real money moves.
+
+## Content moderation
+
+AngkorCraft uses the standard "reactive moderation" model so a small team can
+stay on top of a growing catalog:
+
+- **Guidelines gate** — merchants must confirm each listing follows the
+  [content guidelines](/guidelines) before it saves.
+- **Reporting** — anyone (including logged-out tourists) can flag a product or
+  shop with the flag button. No account required.
+- **Auto-escalation** — once a listing collects 3+ open reports it is
+  automatically hidden pending review (DB trigger).
+- **Admin queue** — `/admin/moderation` lists open reports and hidden content;
+  admins can hide, remove, restore, or dismiss.
+- **RLS enforcement** — non-approved products are hidden from the public catalog
+  at the database level; owners still see their own with an "under review" badge.
+- **Optional automated pre-screening** — set `CLOUDINARY_MODERATION=aws_rek`
+  (Cloudinary's Amazon Rekognition AI Moderation add-on) to auto-screen every
+  uploaded image. Uploads are signed with the moderation flag automatically;
+  wire a Cloudinary moderation webhook to flip flagged assets in the DB.
+
+## Safeguards & scale
+
+- **Rate limiting** — the backend applies a global per-IP cap plus a tighter cap
+  on write/upload/translate endpoints (`express-rate-limit`), and sends security
+  headers via `helmet`. It trusts the Render proxy for correct client IPs.
+- **Quotas** — max 5 stores per merchant and 60 products per store, enforced both
+  in the UI and by DB triggers (`migration-quotas.sql`). Bump these when the
+  database plan is upgraded.
+- **Bounded reads** — public catalog fetches are capped (`CATALOG_FETCH_LIMIT`)
+  so a large catalog never loads all at once.
 
 ## Deployment (free tier, no custom domain)
 

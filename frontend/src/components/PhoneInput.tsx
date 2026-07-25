@@ -63,7 +63,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, placeho
       <select
         value={dial}
         onChange={(e) => setDial(e.target.value)}
-        className="bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl px-2 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#BF5A36] w-28 shrink-0"
+        className="bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl px-2 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D] w-28 shrink-0"
       >
         {COUNTRIES.map((c) => (
           <option key={c.name} value={c.dial}>
@@ -72,7 +72,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, placeho
         ))}
       </select>
       <div className="relative flex-1">
-        <Phone className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#BF5A36]" />
+        <Phone className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF914D]" />
         <input
           type="tel"
           inputMode="tel"
@@ -80,7 +80,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, placeho
           value={num}
           onChange={(e) => setNum(e.target.value)}
           placeholder={placeholder}
-          className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#BF5A36]"
+          className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D]"
         />
       </div>
     </div>

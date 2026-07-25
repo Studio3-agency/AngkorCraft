@@ -33,18 +33,18 @@ export const AdminOverview: React.FC<{ data: AdminData }> = ({ data }) => {
     <div className="space-y-8">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Tile label={t('totalShops')} value={shops.length} Icon={Store} accent="bg-[#134E4A]/10 text-[#134E4A]" />
-        <Tile label={t('productsLabel')} value={products.length} Icon={Package} accent="bg-[#BF5A36]/10 text-[#BF5A36]" />
-        <Tile label={t('featuredLabel')} value={featured.length} Icon={Star} accent="bg-[#D4AF37]/20 text-[#B8860B]" />
+        <Tile label={t('productsLabel')} value={products.length} Icon={Package} accent="bg-[#FF914D]/10 text-[#FF914D]" />
+        <Tile label={t('featuredLabel')} value={featured.length} Icon={Star} accent="bg-[#FF914D]/20 text-[#B8860B]" />
         <Tile label={t('simRevenue')} value={formatUsd(revenue)} Icon={DollarSign} accent="bg-emerald-100 text-emerald-700" />
       </div>
 
       {/* Pending approvals */}
       <div className="bg-white rounded-2xl border border-[#E8DEC8] overflow-hidden">
         <div className="px-6 py-4 border-b border-[#F2EDE4] flex items-center gap-2">
-          <Clock className="w-4 h-4 text-[#BF5A36]" />
+          <Clock className="w-4 h-4 text-[#FF914D]" />
           <h2 className="font-sans text-lg font-bold text-[#134E4A]">{t('pendingApprovals')}</h2>
           {pending.length > 0 && (
-            <span className="ml-auto bg-[#BF5A36] text-white text-xs font-bold px-2.5 py-0.5 rounded-full">
+            <span className="ml-auto bg-[#FF914D] text-white text-xs font-bold px-2.5 py-0.5 rounded-full">
               {pending.length}
             </span>
           )}
@@ -67,7 +67,7 @@ export const AdminOverview: React.FC<{ data: AdminData }> = ({ data }) => {
                 </div>
                 <Link
                   to="/admin/shops"
-                  className="text-xs font-bold text-[#BF5A36] hover:underline shrink-0"
+                  className="text-xs font-bold text-[#FF914D] hover:underline shrink-0"
                 >
                   {t('reviewArrow')}
                 </Link>

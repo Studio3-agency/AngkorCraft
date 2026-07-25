@@ -83,13 +83,13 @@ export const MerchantOverview: React.FC<{ data: MerchantData }> = ({ data }) => 
           {shop.image && <img src={shop.image} alt="" className="w-full h-full object-cover" />}
           <div className="absolute top-3 right-3 flex gap-2">
             {isFeatured && (
-              <span className="bg-[#D4AF37] text-black text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+              <span className="bg-[#FF914D] text-white text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
                 <Star className="w-3 h-3 fill-current" /> Featured
               </span>
             )}
             {shop.isVerified && (
-              <span className="bg-[#134E4A] text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3" /> Verified
+              <span className="bg-[#134E4A] text-white text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3 text-[#F5C542]" /> Verified
               </span>
             )}
           </div>
@@ -101,7 +101,7 @@ export const MerchantOverview: React.FC<{ data: MerchantData }> = ({ data }) => 
           </div>
           <button
             onClick={() => setEditing(true)}
-            className="flex items-center gap-1.5 text-xs font-semibold text-[#134E4A] border border-[#E8DEC8] hover:border-[#BF5A36] px-3 py-1.5 rounded-lg cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 text-xs font-semibold text-[#134E4A] border border-[#E8DEC8] hover:border-[#FF914D] px-3 py-1.5 rounded-lg cursor-pointer shrink-0"
           >
             <Pencil className="w-3.5 h-3.5" /> {t('editStore')}
           </button>
@@ -114,7 +114,7 @@ export const MerchantOverview: React.FC<{ data: MerchantData }> = ({ data }) => 
         <div className="bg-white rounded-2xl border border-[#E8DEC8] p-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold text-[#134E4A]">{t('subscription')}</h3>
-            <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
+            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
               isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-600'
             }`}>
               {isActive ? t('active') : t('inactive')}
@@ -133,7 +133,7 @@ export const MerchantOverview: React.FC<{ data: MerchantData }> = ({ data }) => 
             {busy === 'sub' ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
             {isActive ? t('renew') : t('activate')} — {formatUsd(SUBSCRIPTION_PRICE)}{t('perMonthShort')}
           </button>
-          <p className="text-[10px] text-[#8C7A70] text-center mt-2">{t('simulatedPayment')}</p>
+          <p className="text-xs text-[#8C7A70] text-center mt-2">{t('simulatedPayment')}</p>
         </div>
 
         {/* Boost */}
@@ -141,7 +141,7 @@ export const MerchantOverview: React.FC<{ data: MerchantData }> = ({ data }) => 
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold text-[#134E4A]">{t('boostToFeatured')}</h3>
             {isFeatured && (
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#D4AF37]/20 text-[#B8860B]">
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#FF914D]/20 text-[#B8860B]">
                 {t('featuredBadge')}
               </span>
             )}
@@ -154,12 +154,12 @@ export const MerchantOverview: React.FC<{ data: MerchantData }> = ({ data }) => 
           <button
             onClick={boost}
             disabled={busy === 'boost' || !isActive}
-            className="w-full flex items-center justify-center gap-2 bg-[#BF5A36] hover:bg-[#a94d2d] disabled:opacity-50 text-white text-sm font-semibold py-2.5 rounded-lg cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 bg-[#FF914D] hover:bg-[#F07A33] disabled:opacity-50 text-white text-sm font-semibold py-2.5 rounded-lg cursor-pointer"
           >
             {busy === 'boost' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
             {t('boost7Days')} — {formatUsd(BOOST_PRICE)}
           </button>
-          <p className="text-[10px] text-[#8C7A70] text-center mt-2">
+          <p className="text-xs text-[#8C7A70] text-center mt-2">
             {isActive ? t('simulatedPayment') : t('requiresActiveSubscription')}
           </p>
         </div>
@@ -181,7 +181,7 @@ export const MerchantOverview: React.FC<{ data: MerchantData }> = ({ data }) => 
               <li key={tx.id} className="px-6 py-3 flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2">
                   <span className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-                    tx.type === 'boost' ? 'bg-[#BF5A36]/10 text-[#BF5A36]' : 'bg-[#134E4A]/10 text-[#134E4A]'
+                    tx.type === 'boost' ? 'bg-[#FF914D]/10 text-[#FF914D]' : 'bg-[#134E4A]/10 text-[#134E4A]'
                   }`}>
                     {tx.type === 'boost' ? <Zap className="w-3.5 h-3.5" /> : <RefreshCw className="w-3.5 h-3.5" />}
                   </span>

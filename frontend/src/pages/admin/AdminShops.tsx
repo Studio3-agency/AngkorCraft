@@ -43,7 +43,7 @@ export const AdminShops: React.FC<{ data: AdminData }> = ({ data }) => {
         <h2 className="font-sans text-xl font-bold text-[#134E4A]">{t('shopsMerchants')} ({shops.length})</h2>
         <button
           onClick={() => setCreating(true)}
-          className="flex items-center gap-2 bg-[#BF5A36] hover:bg-[#a94d2d] text-white text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer"
+          className="flex items-center gap-2 bg-[#FF914D] hover:bg-[#F07A33] text-white text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer"
         >
           <Plus className="w-4 h-4" /> {t('addShop')}
         </button>
@@ -89,7 +89,7 @@ export const AdminShops: React.FC<{ data: AdminData }> = ({ data }) => {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
-                        {busy && <Loader2 className="w-4 h-4 animate-spin text-[#BF5A36] mr-1" />}
+                        {busy && <Loader2 className="w-4 h-4 animate-spin text-[#FF914D] mr-1" />}
                         {shop.status === 'pending' && (
                           <>
                             <button
@@ -108,8 +108,10 @@ export const AdminShops: React.FC<{ data: AdminData }> = ({ data }) => {
                         )}
                         <button
                           title={shop.isFeatured ? 'Un-feature' : 'Feature'}
-                          onClick={() => act(shop.id, () => updateShopFields(shop.id, { isFeatured: !shop.isFeatured }))}
-                          className={`p-1.5 rounded-lg cursor-pointer ${shop.isFeatured ? 'text-[#B8860B] bg-[#D4AF37]/15' : 'text-[#8C7A70] hover:bg-[#F2EDE4]'}`}
+                          onClick={() => act(shop.id, () => updateShopFields(shop.id, shop.isFeatured
+                            ? { isFeatured: false, featuredUntil: null }
+                            : { isFeatured: true, featuredUntil: new Date(Date.now() + 30 * 864e5).toISOString() }))}
+                          className={`p-1.5 rounded-lg cursor-pointer ${shop.isFeatured ? 'text-[#B8860B] bg-[#FF914D]/15' : 'text-[#8C7A70] hover:bg-[#F2EDE4]'}`}
                         >
                           <Star className={`w-4 h-4 ${shop.isFeatured ? 'fill-current' : ''}`} />
                         </button>
@@ -123,7 +125,7 @@ export const AdminShops: React.FC<{ data: AdminData }> = ({ data }) => {
                         <button
                           title="Delete"
                           onClick={() => handleDelete(shop)}
-                          className="p-1.5 rounded-lg text-[#BF5A36] hover:bg-red-50 cursor-pointer"
+                          className="p-1.5 rounded-lg text-[#FF914D] hover:bg-red-50 cursor-pointer"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

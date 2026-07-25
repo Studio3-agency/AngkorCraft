@@ -54,7 +54,7 @@ export const SignupPage: React.FC = () => {
         title={t('almostThere')}
         subtitle={t('confirmEmailSubtitle')}
         footer={
-          <Link to="/login" className="text-[#BF5A36] font-semibold hover:underline">
+          <Link to="/login" className="text-[#FF914D] font-semibold hover:underline">
             {t('backToSignIn')}
           </Link>
         }
@@ -77,7 +77,7 @@ export const SignupPage: React.FC = () => {
       footer={
         <>
           {t('alreadyHaveAccount')}{' '}
-          <Link to="/login" className="text-[#BF5A36] font-semibold hover:underline">
+          <Link to="/login" className="text-[#FF914D] font-semibold hover:underline">
             {t('signInBtn')}
           </Link>
         </>
@@ -109,11 +109,11 @@ export const SignupPage: React.FC = () => {
             onClick={() => setRole(key)}
             className={`flex flex-col items-start gap-1 p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
               role === key
-                ? 'border-[#BF5A36] bg-[#BF5A36]/5'
-                : 'border-[#E8DEC8] hover:border-[#BF5A36]/40'
+                ? 'border-[#FF914D] bg-[#FF914D]/5'
+                : 'border-[#E8DEC8] hover:border-[#FF914D]/40'
             }`}
           >
-            <Icon className={`w-5 h-5 ${role === key ? 'text-[#BF5A36]' : 'text-[#8C7A70]'}`} />
+            <Icon className={`w-5 h-5 ${role === key ? 'text-[#FF914D]' : 'text-[#8C7A70]'}`} />
             <span className="text-sm font-bold text-[#134E4A]">{label}</span>
             <span className="text-[11px] text-[#8C7A70]">{desc}</span>
           </button>
@@ -124,14 +124,14 @@ export const SignupPage: React.FC = () => {
         <div>
           <label className="block text-xs font-semibold text-[#134E4A] mb-1.5">{t('fullNameLabel')}</label>
           <div className="relative">
-            <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#BF5A36]" />
+            <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF914D]" />
             <input
               type="text"
               required
               autoComplete="off"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#BF5A36]"
+              className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D]"
               placeholder={t('fullNameLabel')}
             />
           </div>
@@ -140,14 +140,14 @@ export const SignupPage: React.FC = () => {
         <div>
           <label className="block text-xs font-semibold text-[#134E4A] mb-1.5">{t('emailLabel')}</label>
           <div className="relative">
-            <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#BF5A36]" />
+            <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#FF914D]" />
             <input
               type="email"
               required
               autoComplete="off"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#BF5A36]"
+              className="w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D]"
               placeholder="you@example.com"
             />
           </div>
@@ -175,7 +175,7 @@ export const SignupPage: React.FC = () => {
         <button
           type="submit"
           disabled={submitting || !isConfigured}
-          className="w-full bg-[#BF5A36] hover:bg-[#a94d2d] disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors cursor-pointer"
+          className="w-full bg-[#FF914D] hover:bg-[#F07A33] disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors cursor-pointer"
         >
           {submitting ? t('creatingAccount') : role === 'merchant' ? t('createSellerAccount') : t('createShopperAccount')}
         </button>
