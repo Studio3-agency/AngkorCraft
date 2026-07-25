@@ -9,7 +9,9 @@ services:
     runtime: node
     rootDir: backend
     plan: free
-    buildCommand: npm install && npm run build
+    # --include=dev forces devDependencies (typescript) to install even though
+    # Render sets NODE_ENV=production — otherwise `tsc` isn't found and the build fails.
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /health
     autoDeploy: true
