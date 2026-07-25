@@ -1,0 +1,17 @@
+{
+  "name": "angkorcraft",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AngkorCraft — marketplace for authentic Cambodian artisans (frontend + backend).",
+  "scripts": {
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently -n api,web -c magenta,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "seed": "npm --prefix backend run seed",
+    "setup-demo": "npm --prefix backend run setup-demo"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

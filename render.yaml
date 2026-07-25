@@ -1,0 +1,34 @@
+# Render blueprint for the AngkorCraft backend.
+# In Render: New + → Blueprint → connect this repo. Then set the secret env
+# vars (marked sync:false) in the dashboard, and set CORS_ORIGINS to
+# "https://your-app.vercel.app,https://*.vercel.app" (the wildcard covers Vercel
+# preview deploys). UptimeRobot should ping https://<service>.onrender.com/health.
+services:
+  - type: web
+    name: angkorcraft-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: '20'
+      - key: CORS_ORIGINS
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      # Optional — enables best-quality Khmer auto-translation. Leave unset to
+      # use the free fallback provider.
+      - key: GOOGLE_TRANSLATE_API_KEY
+        sync: false

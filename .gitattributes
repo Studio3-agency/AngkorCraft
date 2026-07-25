@@ -1,0 +1,3 @@
+# Normalize line endings so the repo stores LF regardless of contributor OS.
+# Prevents whole-file CRLF/LF churn in diffs after pushing to GitHub.
+* text=auto eol=lf
