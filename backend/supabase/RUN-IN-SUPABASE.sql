@@ -311,3 +311,45 @@ create policy store_reviews_update on public.store_reviews
 drop policy if exists store_reviews_delete on public.store_reviews;
 create policy store_reviews_delete on public.store_reviews
   for delete using (user_id = auth.uid() or public.is_admin());
+
+-- ===== store view analytics =====
+-- =====================================================================
+--  AngkorCraft — store view analytics
+--  Records a row every time a tourist opens a store page (or taps its
+--  Directions / Contact actions). The merchant portal aggregates these into
+--  daily / weekly / monthly view analytics. Discovery is the success metric —
+--  this replaces the simulated POS as the merchant's dashboard signal.
+-- =====================================================================
+
+create table if not exists public.store_views (
+  id          uuid primary key default gen_random_uuid(),
+  shop_id     text not null references public.shops(id) on delete cascade,
+  source      text not null default 'store_page'
+                check (source in ('store_page','directions','contact')),
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists store_views_shop_idx         on public.store_views(shop_id);
+create index if not exists store_views_shop_created_idx on public.store_views(shop_id, created_at desc);
+
+grant insert on public.store_views to anon, authenticated;
+grant select on public.store_views to anon, authenticated;
+grant all    on public.store_views to service_role;
+
+alter table public.store_views enable row level security;
+
+-- Anyone (incl. anonymous tourists) may record a view.
+drop policy if exists store_views_insert on public.store_views;
+create policy store_views_insert on public.store_views
+  for insert with check (true);
+
+-- Only the shop's owner (or an admin) may read its view analytics.
+drop policy if exists store_views_select on public.store_views;
+create policy store_views_select on public.store_views
+  for select using (
+    public.is_admin()
+    or exists (
+      select 1 from public.shops s
+      where s.id = store_views.shop_id and s.owner_id = auth.uid()
+    )
+  );

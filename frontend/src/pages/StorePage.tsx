@@ -11,7 +11,7 @@ import { NearbyHotspots } from '../components/NearbyHotspots';
 import { StoreLocationMap } from '../components/StoreLocationMap';
 import { StoreReviews } from '../components/StoreReviews';
 import { Avatar } from '../components/Avatar';
-import { fetchPublicProfile } from '../lib/store';
+import { fetchPublicProfile, trackStoreView } from '../lib/store';
 import { PublicProfile } from '../types';
 import { nearbyHotspots } from '../lib/geo';
 import { ReportButton } from '../components/ReportButton';
@@ -56,6 +56,13 @@ export const StorePage: React.FC = () => {
     setActiveLandmark(id);
     mapSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
+
+  // Record a store-page view whenever a (different) store is opened. This is the
+  // signal behind the merchant's view analytics. Fire-and-forget; dedup lives in
+  // trackStoreView so StrictMode's double-invoke doesn't double-count.
+  useEffect(() => {
+    if (shop?.id) trackStoreView(shop.id, 'store_page');
+  }, [shop?.id]);
 
   // Who runs this store (public-safe name + avatar). Fails quietly pre-migration.
   useEffect(() => {
@@ -187,7 +194,7 @@ export const StorePage: React.FC = () => {
                   {copied ? t('linkCopied') : t('shareStore')}
                 </button>
                 {mapHref && (
-                  <a href={mapHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 border border-[#E8DEC8] hover:border-[#FF914D] text-[#134E4A] text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+                  <a href={mapHref} target="_blank" rel="noopener noreferrer" onClick={() => trackStoreView(shop.id, 'directions')} className="inline-flex items-center gap-1.5 border border-[#E8DEC8] hover:border-[#FF914D] text-[#134E4A] text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
                     <MapPin className="w-4 h-4" /> {t('mapBtn')}
                   </a>
                 )}
@@ -268,7 +275,7 @@ export const StorePage: React.FC = () => {
             <section className="mt-6 bg-white rounded-3xl border border-[#E8DEC8] shadow-sm p-5 sm:p-7">
               <h2 className="font-sans text-lg font-bold text-[#134E4A] mb-1">{t('contactTitle')}</h2>
               {shop.contactNote && <p className="text-sm text-[#5C4D44] mb-4">{shop.contactNote}</p>}
-              <ContactLinks shop={shop} variant="full" />
+              <ContactLinks shop={shop} variant="full" onChannelClick={() => trackStoreView(shop.id, 'contact')} />
             </section>
           )}
 

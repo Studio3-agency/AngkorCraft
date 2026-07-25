@@ -10,6 +10,8 @@ import {
   ContentReport,
   Review,
   PublicProfile,
+  StoreView,
+  StoreViewSource,
 } from '../types';
 
 /**
@@ -367,6 +369,22 @@ export function mapPosSale(row: {
     items: row.items ?? [],
     totalUsd: row.total_usd,
     paymentMethod: row.payment_method,
+    createdAt: row.created_at,
+  };
+}
+
+export interface StoreViewRow {
+  id: string;
+  shop_id: string;
+  source: StoreViewSource;
+  created_at: string;
+}
+
+export function mapStoreView(row: StoreViewRow): StoreView {
+  return {
+    id: row.id,
+    shopId: row.shop_id,
+    source: row.source ?? 'store_page',
     createdAt: row.created_at,
   };
 }

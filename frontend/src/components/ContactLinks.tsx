@@ -80,13 +80,15 @@ export function hasContactChannels(shop: Shop): boolean {
 interface Props {
   shop: Shop;
   variant?: 'compact' | 'full';
+  /** Fired when a visitor taps a contact channel (used for view analytics). */
+  onChannelClick?: (kind: string) => void;
 }
 
 /**
  * Renders a shop's contact/social channels as outbound links.
  * `compact` = small icon pills (shop cards). `full` = labeled rows (store page).
  */
-export const ContactLinks: React.FC<Props> = ({ shop, variant = 'compact' }) => {
+export const ContactLinks: React.FC<Props> = ({ shop, variant = 'compact', onChannelClick }) => {
   const channels = channelsFor(shop);
   if (channels.length === 0) return null;
 
@@ -103,7 +105,7 @@ export const ContactLinks: React.FC<Props> = ({ shop, variant = 'compact' }) => 
             </span>
           );
           return href ? (
-            <a key={c.kind} href={href} target="_blank" rel="noopener noreferrer nofollow" onClick={(e) => e.stopPropagation()}>
+            <a key={c.kind} href={href} target="_blank" rel="noopener noreferrer nofollow" onClick={(e) => { e.stopPropagation(); onChannelClick?.(c.kind); }}>
               {inner}
             </a>
           ) : (
@@ -131,7 +133,7 @@ export const ContactLinks: React.FC<Props> = ({ shop, variant = 'compact' }) => 
           </span>
         );
         return href ? (
-          <a key={c.kind} href={href} target="_blank" rel="noopener noreferrer nofollow" className="block">
+          <a key={c.kind} href={href} target="_blank" rel="noopener noreferrer nofollow" className="block" onClick={() => onChannelClick?.(c.kind)}>
             {inner}
           </a>
         ) : (

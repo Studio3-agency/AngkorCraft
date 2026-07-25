@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { LayoutDashboard, Package, Receipt, Store, Plus, ChevronDown } from 'lucide-react';
+import { LayoutDashboard, Package, BarChart3, Store, Plus, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useMerchantData } from '../../hooks/useMerchantData';
@@ -9,7 +9,7 @@ import { PortalShell, PortalNavItem } from '../../components/PortalShell';
 import { ShopFormModal } from '../admin/ShopFormModal';
 import { MerchantOverview } from './MerchantOverview';
 import { MerchantProducts } from './MerchantProducts';
-import { MerchantPos } from './MerchantPos';
+import { MerchantAnalytics } from './MerchantAnalytics';
 
 export const MerchantApp: React.FC = () => {
   const { profile, session } = useAuth();
@@ -55,7 +55,7 @@ export const MerchantApp: React.FC = () => {
   const navItems: PortalNavItem[] = [
     { to: '/merchant', label: t('dashboard'), icon: LayoutDashboard, end: true },
     { to: '/merchant/products', label: t('myProducts'), icon: Package },
-    { to: '/merchant/pos', label: t('posSales'), icon: Receipt },
+    { to: '/merchant/analytics', label: t('analyticsNav'), icon: BarChart3 },
   ];
 
   // Store switcher + "add branch" — only shown once the merchant has a store.
@@ -103,7 +103,9 @@ export const MerchantApp: React.FC = () => {
       <Routes>
         <Route index element={<MerchantOverview data={data} />} />
         <Route path="products" element={<MerchantProducts data={data} />} />
-        <Route path="pos" element={<MerchantPos data={data} />} />
+        <Route path="analytics" element={<MerchantAnalytics data={data} />} />
+        {/* Legacy POS path → analytics (old links/bookmarks still land somewhere) */}
+        <Route path="pos" element={<MerchantAnalytics data={data} />} />
       </Routes>
       {creating && (
         <ShopFormModal shop={null} ownerId={ownerId} onClose={() => setCreating(false)} onSaved={data.refetch} />

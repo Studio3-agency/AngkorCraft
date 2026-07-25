@@ -7,12 +7,14 @@ import {
   mapContentReport,
   mapReview,
   mapPublicProfile,
+  mapStoreView,
   shopToRow,
   productToRow,
   ShopRow,
   ProductRow,
   ContentReportRow,
   ReviewRow,
+  StoreViewRow,
 } from './db';
 import {
   Shop,
@@ -24,6 +26,8 @@ import {
   ModerationStatus,
   Review,
   PublicProfile,
+  StoreView,
+  StoreViewSource,
 } from '../types';
 import { CATALOG_FETCH_LIMIT } from './limits';
 
@@ -232,6 +236,58 @@ export async function fetchPosSales(shopId: string): Promise<PosSale[]> {
     .order('created_at', { ascending: false });
   if (error) throw error;
   return (data ?? []).map(mapPosSale);
+}
+
+// ---------- Store view analytics ----------
+
+// Cap how many raw view rows we pull for aggregation. A busy store over a year
+// stays well under this; aggregation happens client-side from these rows.
+const STORE_VIEWS_LIMIT = 10000;
+
+// Guards against double-counting a single visit: React StrictMode double-invokes
+// effects in dev, and a re-render can re-run the tracking effect. We drop repeat
+// fires for the same shop+source within a short window; genuine later revisits
+// (seconds/minutes apart) still count.
+const recentViewFires = new Map<string, number>();
+const VIEW_DEDUPE_MS = 3000;
+
+/**
+ * Record a store-page view / action. Fire-and-forget: it never blocks the UI and
+ * never surfaces an error to the visitor (analytics must not break browsing). If
+ * the store_views table hasn't been migrated yet, the insert simply no-ops.
+ */
+export function trackStoreView(shopId: string, source: StoreViewSource = 'store_page'): void {
+  if (!shopId) return;
+  const key = `${shopId}:${source}`;
+  const now = Date.now();
+  if (now - (recentViewFires.get(key) ?? 0) < VIEW_DEDUPE_MS) return;
+  recentViewFires.set(key, now);
+  void supabase
+    .from('store_views')
+    .insert({ shop_id: shopId, source })
+    .then(
+      () => {},
+      () => {},
+    );
+}
+
+/**
+ * All recorded views for a shop (owner/admin only, enforced by RLS). Degrades to
+ * an empty list on a pre-migration database so the dashboard still renders.
+ */
+export async function fetchStoreViews(shopId: string): Promise<StoreView[]> {
+  const { data, error } = await supabase
+    .from('store_views')
+    .select('*')
+    .eq('shop_id', shopId)
+    .order('created_at', { ascending: false })
+    .limit(STORE_VIEWS_LIMIT);
+  if (error) {
+    // Table not created yet (migration pending) → treat as "no views yet".
+    if (isMissingColumnError(error)) return [];
+    throw error;
+  }
+  return (data as StoreViewRow[]).map(mapStoreView);
 }
 
 // ---------- Content moderation ----------

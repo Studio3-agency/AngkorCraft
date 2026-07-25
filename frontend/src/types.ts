@@ -107,6 +107,17 @@ export interface PosSale {
   createdAt: string;
 }
 
+/** What a visitor did on a store page — the unit behind view analytics. */
+export type StoreViewSource = 'store_page' | 'directions' | 'contact';
+
+/** A single recorded visit to a store page (one row per open / action). */
+export interface StoreView {
+  id: string;
+  shopId: string;
+  source: StoreViewSource;
+  createdAt: string;
+}
+
 export type ShopStatus = 'pending' | 'approved' | 'rejected';
 export type SubscriptionStatus = 'trial' | 'active' | 'inactive';
 export type ModerationStatus = 'approved' | 'pending' | 'flagged' | 'removed';
