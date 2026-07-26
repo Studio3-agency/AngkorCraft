@@ -306,6 +306,13 @@ export const km: Record<string, string> = {
   addBranchTitle: 'បន្ថែមសាខា',
   branchFormHint: 'ព័ត៌មានរួមត្រូវបានចម្លងរួច។ គ្រាន់តែកំណត់ទីតាំង ម៉ោង និងរូបភាពរបស់សាខានេះ។',
 
+  // ---- Map legend ----
+  legendTitle: 'និមិត្តសញ្ញា',
+  legendMarkets: 'ផ្សារ',
+  legendWorkshops: 'រោងជាង / សហគ្រាស',
+  legendFarms: 'ចម្ការ និងសហករណ៍',
+  legendLandmarks: 'ទីតាំងទេសចរណ៍',
+
   // ---- Admin ----
   controlCenter: 'មជ្ឈមណ្ឌលគ្រប់គ្រង',
   signedInAs: 'ចូលក្នុងនាម {name}',

@@ -306,6 +306,13 @@ export const en: Record<string, string> = {
   addBranchTitle: 'Add a branch',
   branchFormHint: "Shared info was copied. Just set this branch's own location, hours and photo.",
 
+  // ---- Map legend ----
+  legendTitle: 'Legend',
+  legendMarkets: 'Markets',
+  legendWorkshops: 'Workshops / Enterprise',
+  legendFarms: 'Farms & Co-ops',
+  legendLandmarks: 'Tourist landmarks',
+
   // ---- Admin ----
   controlCenter: 'Control Center',
   signedInAs: 'Signed in as {name}',

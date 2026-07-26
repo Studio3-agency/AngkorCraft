@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { LocateFixed } from 'lucide-react';
+import { LocateFixed, ChevronDown } from 'lucide-react';
 import { Shop } from '../types';
 import { HOTSPOTS } from '../data/hotspots';
 import { useLanguage } from '../context/LanguageContext';
@@ -57,6 +57,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   const landmarkLayerRef = useRef<L.LayerGroup | null>(null);
   const userMarkerRef = useRef<L.Marker | null>(null);
   const centeredOnUserRef = useRef(false);
+  const [legendOpen, setLegendOpen] = useState(true);
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -198,33 +199,47 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         {t('nearMe')}
       </button>
 
-      {/* Legend overlay */}
-      <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md p-2.5 rounded-xl border border-[#E8DEC8] shadow-lg text-xs z-[20] flex flex-col gap-1.5 pointer-events-none">
-        <div className="font-semibold text-[#2C221E] text-[11px] uppercase tracking-wider mb-0.5">Legend</div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#FF914D] border border-white"></span>
-          <span className="text-[#4A3E39]">Markets</span>
+      {/* Legend overlay — collapsible so it never clutters the map */}
+      <div className="absolute bottom-3 right-3 z-[20] w-[190px] max-w-[60%]">
+        <div className="bg-white/95 backdrop-blur-md rounded-xl border border-[#E8DEC8] shadow-lg text-xs overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setLegendOpen((o) => !o)}
+            aria-expanded={legendOpen}
+            className="w-full flex items-center justify-between gap-3 px-2.5 py-2 cursor-pointer hover:bg-[#FAF7F2] transition-colors"
+          >
+            <span className="font-semibold text-[#2C221E] text-[11px] uppercase tracking-wider">{t('legendTitle')}</span>
+            <ChevronDown className={`w-3.5 h-3.5 text-[#8C7A70] transition-transform duration-200 ${legendOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {legendOpen && (
+            <div className="px-2.5 pb-2.5 flex flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-[#FF914D] border border-white shrink-0"></span>
+                <span className="text-[#4A3E39]">{t('legendMarkets')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-[#1F5353] border border-white shrink-0"></span>
+                <span className="text-[#4A3E39]">{t('legendWorkshops')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-[#B87B1F] border border-white shrink-0"></span>
+                <span className="text-[#4A3E39]">{t('legendFarms')}</span>
+              </div>
+              {showLandmarks && (
+                <div className="flex items-center gap-2 pt-1 mt-0.5 border-t border-[#E8DEC8]">
+                  <span className="w-3 h-3 rounded-full bg-[#134E4A]/60 border border-white flex items-center justify-center text-[#F4C430] text-[7px] shrink-0">★</span>
+                  <span className="text-[#4A3E39]">{t('legendLandmarks')}</span>
+                </div>
+              )}
+              {userLocation && (
+                <div className="flex items-center gap-2 pt-1 mt-0.5 border-t border-[#E8DEC8]">
+                  <span className="w-3 h-3 rounded-full bg-[#1A73E8] border-2 border-white shadow shrink-0"></span>
+                  <span className="text-[#4A3E39]">{t('youAreHere')}</span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#1F5353] border border-white"></span>
-          <span className="text-[#4A3E39]">Workshops / Enterprise</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#B87B1F] border border-white"></span>
-          <span className="text-[#4A3E39]">Farms & Co-ops</span>
-        </div>
-        {showLandmarks && (
-          <div className="flex items-center gap-2 pt-1 mt-0.5 border-t border-[#E8DEC8]">
-            <span className="w-3 h-3 rounded-full bg-[#134E4A]/60 border border-white flex items-center justify-center text-[#F4C430] text-[7px]">★</span>
-            <span className="text-[#4A3E39]">Tourist landmarks</span>
-          </div>
-        )}
-        {userLocation && (
-          <div className="flex items-center gap-2 pt-1 mt-0.5 border-t border-[#E8DEC8]">
-            <span className="w-3 h-3 rounded-full bg-[#1A73E8] border-2 border-white shadow"></span>
-            <span className="text-[#4A3E39]">{t('youAreHere')}</span>
-          </div>
-        )}
       </div>
     </div>
   );
