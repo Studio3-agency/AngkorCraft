@@ -14,7 +14,9 @@ export const MOCK_PRODUCTS: Product[] = [
     reviewCount: 312,
     image: 'https://images.unsplash.com/photo-1599909631369-2a29792e3532?auto=format&fit=crop&w=800&q=80',
     description: 'World-famous Protected Geographical Indication (PGI) pepper harvested by hand in the coastal foothills of Kampot.',
+    descriptionKh: 'ម្រេចដែលមានសញ្ញាសម្គាល់ភូមិសាស្ត្រ (PGI) ល្បីល្បាញទូទាំងពិភពលោក ប្រមូលផលដោយដៃនៅតំបន់ជម្រាលភ្នំតាមឆ្នេរខេត្តកំពត។',
     culturalStory: 'Kampot Pepper is globally renowned among Michelin-star chefs for its intense pine blossom aroma, lingering floral heat, and mineral complexity driven by the quartz-rich soil of the Elephant Mountains and sea breeze of the Gulf of Thailand.',
+    culturalStoryKh: 'ម្រេចកំពតត្រូវបានគេស្គាល់ទូទាំងពិភពលោក ក្នុងចំណោមចុងភៅផ្កាយមីស្លីន ដោយសារក្លិនផ្កាស្រល់ដ៏ខ្លាំង ភាពក្តៅផ្កាដែលនៅជាប់យូរ និងភាពស្មុគស្មាញនៃរ៉ែ ដែលកើតចេញពីដីសម្បូរគ្រីស្តាល់នៃភ្នំដំរី និងខ្យល់សមុទ្រនៃឈូងសមុទ្រថៃ។',
     storeIds: ['sothy-pepper-farm', 'phsar-thmei', 'fair-trade-village', 'senteurs-d-angkor'],
     authenticTips: [
       'Look for the official Green/Red Kampot Pepper PGI logo seal with QR traceability code on the bag.',
@@ -42,7 +44,9 @@ export const MOCK_PRODUCTS: Product[] = [
     reviewCount: 184,
     image: 'https://images.unsplash.com/photo-1606760227091-3dd850d97f1d?auto=format&fit=crop&w=800&q=80',
     description: '100% pure Cambodian golden silk woven on heritage frame looms using ancient Hol tie-dye techniques.',
+    descriptionKh: 'ក្រមាសូត្រមាសខ្មែរសុទ្ធ ១០០% ត្បាញនៅលើកីតម្បាញបុរាណ ដោយប្រើបច្ចេកទេសចងជ្រលក់ពណ៌ហូលបុរាណ។',
     culturalStory: 'Cambodian golden silk is spun from the native yellow silkworm (Bombyx mori) fed exclusively on organic mulberry leaves. Master weavers in Siem Reap and Takeo spend up to 4 weeks tying and dyeing threads with natural indigo, lac insect resin, and tree bark to create intricate Angkorian geometric motifs.',
+    culturalStoryKh: 'សូត្រមាសខ្មែរ ត្រូវបានរវៃចេញពីដង្កូវនាងមាសដើមកំណើត ដែលចិញ្ចឹមដោយស្លឹកមនសរីរាង្គ។ ជាងត្បាញជំនាញនៅសៀមរាប និងតាកែវ ចំណាយពេលរហូតដល់ ៤ សប្តាហ៍ ក្នុងការចង និងជ្រលក់ពណ៌អំបោះ ដោយប្រើពណ៌ធម្មជាតិ ដើម្បីបង្កើតក្បាច់ធរណីមាត្របែបអង្គរដ៏ស្មុគស្មាញ។',
     storeIds: ['artisans-angkor', 'fair-trade-village', 'lotus-silk-boutique', 'made-in-cambodia-market'],
     authenticTips: [
       'Perform a burn test: Real Cambodian silk leaves a subtle feather-ash residue and smells like singed hair; synthetic polyester melts into hard plastic beads.',
@@ -70,7 +74,9 @@ export const MOCK_PRODUCTS: Product[] = [
     reviewCount: 96,
     image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80',
     description: 'Exquisite hand-hammered silver alloy trinket box featuring delicate Khmer lotus blossom scrollwork.',
+    descriptionKh: 'ប្រអប់ប្រាក់លាយ វាយដោយដៃយ៉ាងវិចិត្រ មានក្បាច់ផ្កាឈូកខ្មែរដ៏ស្រទន់។',
     culturalStory: 'The ancient art of Khmer silver repoussé dates back to the 11th-century Angkor Empire. Master silversmiths in Kompong Luong village near Phnom Penh hammer intricate animal shapes (elephants, betel boxes, sacred lotus) out of pitch-filled silver sheets using tiny steel chisels.',
+    culturalStoryKh: 'សិល្បៈវាយប្រាក់ខ្មែរបុរាណ មានតាំងពីសម័យអង្គរ សតវត្សរ៍ទី ១១។ ជាងប្រាក់ជំនាញនៅភូមិកំពង់លួង ជិតរាជធានីភ្នំពេញ វាយរូបរាងសត្វ (ដំរី ប្រអប់ស្លា ផ្កាឈូកពិសិដ្ឋ) ចេញពីសន្លឹកប្រាក់ ដោយប្រើដែកចាក់តូចៗ។',
     storeIds: ['phsar-thmei', 'kandal-silver-alley', 'artisans-angkor'],
     authenticTips: [
       'Look for the hallmark stamp (T90, T80, or T70 indicating silver purity percentage).',
@@ -98,7 +104,9 @@ export const MOCK_PRODUCTS: Product[] = [
     reviewCount: 142,
     image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
     description: 'Detailed teak wood wall relief inspired by the celestial Apsara dancers carved on the temple walls of Angkor Wat.',
+    descriptionKh: 'ចម្លាក់ជញ្ជាំងឈើម្កាក់លម្អិត បំផុសគំនិតពីរបាំទេពអប្សរា ដែលឆ្លាក់នៅជញ្ជាំងប្រាសាទអង្គរវត្ត។',
     culturalStory: 'In Khmer mythology, Apsaras are celestial nymphs born during the Churning of the Ocean of Milk. Artisan woodcarvers undergo 3-5 years of strict vocational training at traditional workshops in Siem Reap to master the delicate hand posture, elaborate crowns, and facial expression accuracy.',
+    culturalStoryKh: 'តាមទេវកថាខ្មែរ ទេពអប្សរាគឺជានាងទេវតាដែលកើតឡើងក្នុងពេលកូរសមុទ្រទឹកដោះ។ ជាងឆ្លាក់ឈើ ត្រូវហ្វឹកហ្វឺនយ៉ាងតឹងរ៉ឹងពី ៣ ទៅ ៥ ឆ្នាំ នៅរោងជាងបុរាណក្នុងសៀមរាប ដើម្បីស្ទាត់ជំនាញកាយវិការដៃ មកុដដ៏ល្អិតល្អន់ និងទឹកមុខ។',
     storeIds: ['artisans-angkor', 'made-in-cambodia-market', 'fair-trade-village'],
     authenticTips: [
       'Check wood grain depth: Reclaimed Burmese/Cambodian teak wood exhibits rich natural oil density and deep graining.',
@@ -126,7 +134,9 @@ export const MOCK_PRODUCTS: Product[] = [
     reviewCount: 210,
     image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80',
     description: 'Shade-grown organic Arabica & Robusta coffee beans cultivated by Bunong indigenous farmers in Mondulkiri.',
+    descriptionKh: 'គ្រាប់កាហ្វេ Arabica និង Robusta សរីរាង្គ ដាំក្រោមម្លប់ដោយកសិករជនជាតិដើមភាគតិចព្នង នៅមណ្ឌលគីរី។',
     culturalStory: 'Cultivated at 800 meters elevation in the cool red volcanic soils of Eastern Cambodia, Mondulkiri coffee is slow-roasted with local honey and organic coconut oil, resulting in a rich dark chocolate profile with hazelnut top notes.',
+    culturalStoryKh: 'ដាំនៅកម្ពស់ ៨០០ ម៉ែត្រ ក្នុងដីភ្នំភ្លើងក្រហមត្រជាក់នៃភាគខាងកើតកម្ពុជា កាហ្វេមណ្ឌលគីរីត្រូវលីងយឺតៗជាមួយទឹកឃ្មុំក្នុងស្រុក និងប្រេងដូងសរីរាង្គ បង្កើតរសជាតិសូកូឡាខ្មៅ ជាមួយក្លិនគ្រាប់ល្ង។',
     storeIds: ['phsar-thmei', 'mondulkiri-coffee-house', 'made-in-cambodia-market'],
     authenticTips: [
       'Look for "Shade Grown - Indigenous Fair Trade" labels.',
@@ -153,7 +163,9 @@ export const MOCK_PRODUCTS: Product[] = [
     reviewCount: 88,
     image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80',
     description: 'Traditional wood-fired clay tea set hand-paddled by village women in Kampong Chhnang ("Port of Pottery").',
+    descriptionKh: 'ឈុតបន្តោងតែដីឥដ្ឋ ដុតដោយអុស ធ្វើដោយដៃពីស្ត្រីភូមិនៅកំពង់ឆ្នាំង ("កំពង់នៃក្អមឆ្នាំង")។',
     culturalStory: 'Kampong Chhnang literally translates to "Port of Pottery". Village women shape terracotta water urns and tea pots using ancient wooden anvil-and-paddle techniques without a wheel, firing them under straw kilns that leave rustic earthy flame marks on each pot.',
+    culturalStoryKh: 'កំពង់ឆ្នាំង មានន័យត្រង់ថា "កំពង់ផែនៃក្អមឆ្នាំង"។ ស្ត្រីភូមិសូនរាងក្អម និងផើងតែ ដោយប្រើបច្ចេកទេសដំវាយឈើបុរាណដោយគ្មានកង់ ហើយដុតក្រោមឡចំបើង ដែលបន្សល់ស្នាមភ្លើងធម្មជាតិលើផើងនីមួយៗ។',
     storeIds: ['phsar-thmei', 'fair-trade-village', 'senteurs-d-angkor'],
     authenticTips: [
       'Authentic unglazed clay retains water temperature and purifies tea minerals.',
@@ -180,7 +192,9 @@ export const MOCK_PRODUCTS: Product[] = [
     reviewCount: 260,
     image: 'https://images.unsplash.com/photo-1607006344380-b6775a0824a7?auto=format&fit=crop&w=800&q=80',
     description: 'Cold-pressed moisturizing botanical bar soap handcrafted with wild lemongrass, kaffir lime, and virgin coconut oil wrapped in handwoven palm leaf box.',
+    descriptionKh: 'សាប៊ូធម្មជាតិចិញ្ចឹមស្បែក ធ្វើដោយដៃពីស្លឹកគ្រៃព្រៃ ក្រូចសើច និងប្រេងដូងបរិសុទ្ធ វេចក្នុងប្រអប់ស្លឹកត្នោតត្បាញដោយដៃ។',
     culturalStory: 'Siem Reap herbal artisans use ancient Khmer traditional medicine (Kru Khmer) recipes to distill fresh organic lemongrass and kaffir lime leaves. Encased in handwoven dried sugar palm leaf packaging (Smar).',
+    culturalStoryKh: 'សិប្បករឱសថនៅសៀមរាប ប្រើរូបមន្តវេជ្ជសាស្ត្របុរាណខ្មែរ (គ្រូខ្មែរ) ដើម្បីស្រង់ស្លឹកគ្រៃ និងក្រូចសើចសរីរាង្គស្រស់។ វេចខ្ចប់ក្នុងស្លឹកត្នោតសម្ងួតត្បាញដោយដៃ (ស្មារ)។',
     storeIds: ['senteurs-d-angkor', 'made-in-cambodia-market', 'fair-trade-village'],
     authenticTips: [
       '100% biodegradable and zero-plastic eco packaging made from local sugar palm leaves.',
@@ -207,7 +221,9 @@ export const MOCK_PRODUCTS: Product[] = [
     reviewCount: 410,
     image: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&w=800&q=80',
     description: 'The iconic multi-purpose Cambodian checkerboard cotton cloth worn by locals for sun protection, hammocks, and headwraps.',
+    descriptionKh: 'ក្រមាកប្បាសខ្មែរឆូតការ៉ូដ៏មានប្រយោជន៍ ដែលអ្នកស្រុកប្រើការពារកម្តៅថ្ងៃ ធ្វើអង្រឹង និងជាបង់ក្បាល។',
     culturalStory: 'The Krama is Cambodia’s national symbol of utility and resilience. Used for centuries as a headband, baby carrier, towel, and fashion accessory. Hand-woven on shuttle looms in Battambang countryside villages.',
+    culturalStoryKh: 'ក្រមាគឺជានិមិត្តរូបជាតិនៃភាពមានប្រយោជន៍ និងភាពស៊ូទ្រាំរបស់កម្ពុជា។ ត្រូវបានប្រើអស់ជាច្រើនសតវត្សរ៍ ជាបង់ក្បាល កន្សែងពាំងកូន កន្សែងជូតខ្លួន និងគ្រឿងម៉ូត។ ត្បាញដោយដៃលើកីនៅភូមិជនបទបាត់ដំបង។',
     storeIds: ['phsar-nat-battambang', 'phsar-thmei', 'made-in-cambodia-market'],
     authenticTips: [
       '100% breathable cotton softens with every wash.',
@@ -242,6 +258,7 @@ export const MOCK_SHOPS: Shop[] = [
     reviewCount: 1420,
     image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
     description: 'Iconic 1937 French Art Deco yellow dome market featuring hundreds of official craft stalls, silver engravers, Kampot pepper sellers, and traditional silk traders.',
+    descriptionKh: 'ផ្សារ Art Deco ដំបូលពណ៌លឿងបែបបារាំងឆ្នាំ ១៩៣៧ ដ៏លេចធ្លោ មានតូបលក់សិប្បកម្មរាប់រយ ជាងឆ្លាក់ប្រាក់ អ្នកលក់ម្រេចកំពត និងឈ្មួញសូត្របុរាណ។',
     isVerified: true,
     featuredProductIds: ['kampot-black-pepper', 'silver-lotus-box', 'battambang-cotton-krama', 'mondulkiri-arabica-coffee']
   },
@@ -263,6 +280,7 @@ export const MOCK_SHOPS: Shop[] = [
     reviewCount: 980,
     image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
     description: 'Renowned Cambodian social enterprise providing free vocational training to rural youth. Features live guided workshop tours of stone carving, lacquering, silk painting, and wood sculpture.',
+    descriptionKh: 'សហគ្រាសសង្គមខ្មែរដ៏ល្បី ផ្តល់ការបណ្តុះបណ្តាលវិជ្ជាជីវៈដោយឥតគិតថ្លៃដល់យុវជនជនបទ។ មានដំណើរទស្សនកិច្ចរោងជាងផ្ទាល់ ការឆ្លាក់ថ្ម ការលាបជ័រ គំនូរសូត្រ និងចម្លាក់ឈើ។',
     isVerified: true,
     featuredProductIds: ['golden-silk-krama', 'teak-apsara-sculpture', 'silver-lotus-box']
   },
@@ -284,6 +302,7 @@ export const MOCK_SHOPS: Shop[] = [
     reviewCount: 340,
     image: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=800&q=80',
     description: '100% Fair Trade certified artisan collective where 50+ local handicraft producers from rural Cambodia sell guaranteed authentic silk, wood carvings, and Kampot spices.',
+    descriptionKh: 'សហគមន៍សិប្បករ ១០០% ពាណិជ្ជកម្មយុត្តិធម៌ ដែលមានក្រុមផលិតសិប្បកម្មជនបទជាង ៥០ លក់សូត្រ ចម្លាក់ឈើ និងគ្រឿងទេសកំពតពិតប្រាកដ។',
     isVerified: true,
     featuredProductIds: ['kampot-black-pepper', 'golden-silk-krama', 'kampong-chhnang-clay-pot', 'lemongrass-silk-soap']
   },
@@ -305,6 +324,7 @@ export const MOCK_SHOPS: Shop[] = [
     reviewCount: 650,
     image: 'https://images.unsplash.com/photo-1599909631369-2a29792e3532?auto=format&fit=crop&w=800&q=80',
     description: 'Direct farm shop on an eco-certified Kampot pepper plantation. Offers free guided walk-throughs explaining organic pepper cultivation, sun-drying, and direct PGI-sealed bags.',
+    descriptionKh: 'ហាងចម្ការផ្ទាល់នៅចម្ការម្រេចកំពត ដែលមានវិញ្ញាបនបត្របរិស្ថាន។ ផ្តល់ដំណើរដើរមើលដោយឥតគិតថ្លៃ ពន្យល់ពីការដាំម្រេចសរីរាង្គ ការសម្ងួតថ្ងៃ និងកញ្ចប់បិទត្រា PGI ផ្ទាល់។',
     isVerified: true,
     featuredProductIds: ['kampot-black-pepper']
   },
@@ -326,6 +346,7 @@ export const MOCK_SHOPS: Shop[] = [
     reviewCount: 1120,
     image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80',
     description: 'Charming open-air riverfront market dedicated exclusively to genuine Cambodian-made goods. No mass-produced imports allowed. Includes live cultural shows.',
+    descriptionKh: 'ផ្សារបើកចំហរតាមមាត់ទន្លេដ៏ទាក់ទាញ ដែលឧទ្ទិសសម្រាប់តែផលិតផលធ្វើនៅកម្ពុជាពិតប្រាកដ។ គ្មានទំនិញនាំចូលផលិតដោយម៉ាស៊ីនទេ។ មានកម្មវិធីសិល្បៈវប្បធម៌បន្តផ្ទាល់។',
     isVerified: true,
     featuredProductIds: ['lemongrass-silk-soap', 'teak-apsara-sculpture', 'battambang-cotton-krama', 'golden-silk-krama']
   },
@@ -347,6 +368,7 @@ export const MOCK_SHOPS: Shop[] = [
     reviewCount: 490,
     image: 'https://images.unsplash.com/photo-1607006344380-b6775a0824a7?auto=format&fit=crop&w=800&q=80',
     description: 'A sensory garden and botanical craft center specializing in natural cosmetics, Kampot spice blends, and handwoven palm-leaf eco packaging.',
+    descriptionKh: 'សួនផ្កា និងមជ្ឈមណ្ឌលសិប្បកម្មរុក្ខជាតិ ជំនាញផ្នែកគ្រឿងសម្អាងធម្មជាតិ គ្រឿងទេសកំពត និងវេចខ្ចប់បរិស្ថានពីស្លឹកត្នោត។',
     isVerified: true,
     featuredProductIds: ['lemongrass-silk-soap', 'kampot-black-pepper', 'kampong-chhnang-clay-pot']
   },
@@ -368,6 +390,7 @@ export const MOCK_SHOPS: Shop[] = [
     reviewCount: 380,
     image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80',
     description: 'Historic French colonial market hall in the heart of Battambang known for regional cotton krama looms, local rice cakes, and handmade bamboo crafts.',
+    descriptionKh: 'សាលផ្សារបារាំងបុរាណ នៅចំកណ្តាលបាត់ដំបង ល្បីដោយសារកីត្បាញក្រមាកប្បាសក្នុងតំបន់ នំក្នុងស្រុក និងសិប្បកម្មឫស្សីធ្វើដោយដៃ។',
     isVerified: true,
     featuredProductIds: ['battambang-cotton-krama']
   }

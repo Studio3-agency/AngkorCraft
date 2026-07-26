@@ -180,6 +180,10 @@ export interface Shop {
   subscriptionExpiresAt?: string | null;
   vertical?: string;
   createdAt?: string;
+  /** Public total of store-page views (denormalized, incremented by the DB). */
+  viewCount?: number;
+  /** If set, this store is a BRANCH of the referenced store (shared brand). */
+  parentShopId?: string | null;
 }
 
 export interface KhmerPhrase {

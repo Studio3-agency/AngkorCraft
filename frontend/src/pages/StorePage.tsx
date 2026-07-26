@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, MapPin, Clock, CreditCard, ShieldCheck, Star, ExternalLink, Share2, Check, Loader2, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, MapPin, Clock, CreditCard, ShieldCheck, Star, ExternalLink, Share2, Check, Loader2, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import { useCatalog } from '../hooks/useCatalog';
+import { isShopLive } from '../lib/shops';
+import { formatViews } from '../lib/util';
 import { useWishlist } from '../hooks/useWishlist';
 import { useLanguage } from '../context/LanguageContext';
 import { localized } from '../lib/localize';
@@ -11,7 +13,7 @@ import { NearbyHotspots } from '../components/NearbyHotspots';
 import { StoreLocationMap } from '../components/StoreLocationMap';
 import { StoreReviews } from '../components/StoreReviews';
 import { Avatar } from '../components/Avatar';
-import { fetchPublicProfile, trackStoreView } from '../lib/store';
+import { fetchPublicProfile, trackStoreView, fetchShopBySlugOrId, fetchProductsForShop } from '../lib/store';
 import { PublicProfile } from '../types';
 import { nearbyHotspots } from '../lib/geo';
 import { ReportButton } from '../components/ReportButton';
@@ -33,18 +35,47 @@ export const StorePage: React.FC = () => {
 
   // Match by slug, falling back to id so shareable links work even before the
   // slug migration has been applied (shop ids are already slug-like).
-  const shop = useMemo<Shop | undefined>(
+  const catalogShop = useMemo<Shop | undefined>(
     () => shops.find((s) => s.slug === slug || s.id === slug),
     [shops, slug],
   );
 
-  const shopProducts = useMemo(
-    () =>
-      shop
-        ? products.filter((p) => p.ownerShopId === shop.id || p.storeIds.includes(shop.id))
-        : [],
-    [products, shop],
-  );
+  // A store that isn't in the public catalog (subscription inactive / pending)
+  // is still reachable by direct link and by its owner previewing it — fetch it
+  // directly in that case so the page renders with a clear "not visible" notice.
+  const [fallbackShop, setFallbackShop] = useState<Shop | null>(null);
+  const [fallbackProducts, setFallbackProducts] = useState<Product[]>([]);
+  const [resolving, setResolving] = useState(false);
+
+  useEffect(() => {
+    if (catalogShop || !slug || loading) { setResolving(false); return; }
+    let cancelled = false;
+    setResolving(true);
+    (async () => {
+      try {
+        const s = await fetchShopBySlugOrId(slug);
+        if (cancelled) return;
+        setFallbackShop(s);
+        if (s) {
+          const p = await fetchProductsForShop(s.id).catch(() => [] as Product[]);
+          if (!cancelled) setFallbackProducts(p);
+        }
+      } catch {
+        if (!cancelled) setFallbackShop(null);
+      } finally {
+        if (!cancelled) setResolving(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [catalogShop, slug, loading]);
+
+  const shop = catalogShop ?? fallbackShop ?? undefined;
+
+  const shopProducts = useMemo(() => {
+    if (!shop) return [];
+    if (catalogShop) return products.filter((p) => p.ownerShopId === shop.id || p.storeIds.includes(shop.id));
+    return fallbackProducts;
+  }, [products, shop, catalogShop, fallbackProducts]);
 
   // Shared between the landmark list and the map so clicks line up.
   const nearbySpots = useMemo(
@@ -99,7 +130,7 @@ export const StorePage: React.FC = () => {
     </header>
   );
 
-  if (loading) {
+  if (loading || resolving) {
     return (
       <div className="min-h-screen bg-[#FAF7F2] flex flex-col">
         {Header}
@@ -130,6 +161,7 @@ export const StorePage: React.FC = () => {
   const mapHref = shop.googleMapsUrl || (shop.lat && shop.lng ? `https://www.google.com/maps/search/?api=1&query=${shop.lat},${shop.lng}` : null);
   const description = localized(shop.description, shop.descriptionKh, language);
   const underReview = shop.moderationStatus === 'flagged' || shop.moderationStatus === 'pending';
+  const notLive = !isShopLive(shop);
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] flex flex-col">
@@ -172,10 +204,14 @@ export const StorePage: React.FC = () => {
                 {(language === 'kh' ? shop.name : shop.khmerName) && (
                   <p className="text-sm text-[#8C7A70] mt-0.5">{language === 'kh' ? shop.name : shop.khmerName}</p>
                 )}
-                <div className="flex items-center gap-3 mt-2 text-sm">
+                <div className="flex items-center gap-3 mt-2 text-sm flex-wrap">
                   <span className="inline-flex items-center gap-1 font-bold text-[#2D2926]">
                     <Star className="w-4 h-4 fill-[#FF914D] text-[#FF914D]" /> {shop.rating}
                     <span className="text-[#8C7A70] font-normal">({shop.reviewCount})</span>
+                  </span>
+                  <span className="inline-flex items-center gap-1 font-bold text-[#2D2926]" title={t('storeViewsLabel')}>
+                    <Eye className="w-4 h-4 text-[#FF914D]" /> {formatViews(shop.viewCount)}
+                    <span className="text-[#8C7A70] font-normal">{t('viewsWord')}</span>
                   </span>
                   {(shop.city || shop.region) && (
                     <span className="inline-flex items-center gap-1 text-[#5C4D44]">
@@ -205,6 +241,13 @@ export const StorePage: React.FC = () => {
               <div className="mt-4 flex items-start gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-xl p-3">
                 <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span><strong>{t('underReview')}.</strong> {t('underReviewDesc')}</span>
+              </div>
+            )}
+
+            {notLive && (
+              <div className="mt-4 flex items-start gap-2 bg-[#FFF3E9] border border-[#FF914D]/40 text-[#8a4b1e] text-xs rounded-xl p-3">
+                <EyeOff className="w-4 h-4 shrink-0 mt-0.5 text-[#FF914D]" />
+                <span><strong>{t('storeHiddenTitle')}.</strong> {t('storeHiddenDesc')}</span>
               </div>
             )}
 

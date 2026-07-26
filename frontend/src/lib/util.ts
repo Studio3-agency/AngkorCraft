@@ -20,3 +20,11 @@ export function formatDate(iso?: string | null): string {
   if (!iso) return '—';
   return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 }
+
+/** Compact view counter: 0 → "0", 1234 → "1.2k", 2_500_000 → "2.5M". */
+export function formatViews(n?: number | null): string {
+  const v = Math.max(0, Math.floor(n || 0));
+  if (v < 1000) return String(v);
+  if (v < 1_000_000) return `${(v / 1000).toFixed(v < 10_000 ? 1 : 0).replace(/\.0$/, '')}k`;
+  return `${(v / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`;
+}

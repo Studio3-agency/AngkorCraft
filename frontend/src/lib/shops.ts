@@ -11,6 +11,22 @@ export function isBoostActive(shop: Shop): boolean {
 }
 
 /**
+ * Whether a store is LIVE to the public. Two independent gates:
+ *   1. Approval (`status === 'approved'`) — an admin allowed its content.
+ *   2. Subscription — the merchant is paying to be listed.
+ * A shop with no `status` field is static mock data (always live). Approval
+ * lets content onto the platform; the subscription decides visibility.
+ */
+export function isShopLive(shop: Shop): boolean {
+  const approved = shop.status === undefined || shop.status === 'approved';
+  const subscribed =
+    shop.subscriptionStatus === undefined ||
+    shop.subscriptionStatus === 'active' ||
+    shop.subscriptionStatus === 'trial';
+  return approved && subscribed;
+}
+
+/**
  * Popularity = rating scaled by how many reviews back it up, so a 5.0 with 3
  * reviews doesn't outrank a 4.8 with 900. (Simple review-weighted score.)
  */

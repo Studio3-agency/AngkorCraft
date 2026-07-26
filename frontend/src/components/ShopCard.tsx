@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Shop } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { localized } from '../lib/localize';
-import { MapPin, Clock, ShieldCheck, ExternalLink, Star, Store, Zap } from 'lucide-react';
+import { MapPin, Clock, ShieldCheck, ExternalLink, Star, Store, Zap, Eye } from 'lucide-react';
 import { ReportButton } from './ReportButton';
 import { isBoostActive } from '../lib/shops';
+import { formatViews } from '../lib/util';
 
 interface ShopCardProps {
   shop: Shop;
@@ -70,6 +71,11 @@ export const ShopCard: React.FC<ShopCardProps> = ({
             {shop.city}
           </div>
         )}
+        {/* Live view counter — the marketplace-wide "how discovered" signal. */}
+        <div className="absolute bottom-3 right-3 bg-black/55 backdrop-blur-md text-white text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1 border border-white/10" title={t('storeViewsLabel')}>
+          <Eye className="w-3 h-3" style={{ color: GOLD }} />
+          {formatViews(shop.viewCount)}
+        </div>
       </div>
 
       {/* Shop Info — buttons pinned to the bottom so cards line up in a grid */}

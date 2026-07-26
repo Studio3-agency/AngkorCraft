@@ -3,6 +3,23 @@ import { Product, Shop } from '../types';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { mapProduct, mapShop, ProductRow, ShopRow } from '../lib/db';
 import { MOCK_PRODUCTS, MOCK_SHOPS } from '../data/mockData';
+import { isShopLive } from '../lib/shops';
+
+/**
+ * Keep only shops that are LIVE (approved AND subscription active) plus the
+ * products that belong to at least one live shop. Approval alone isn't enough —
+ * a store stays hidden from the public until its subscription is active.
+ */
+function keepLive(shops: Shop[], products: Product[]): { shops: Shop[]; products: Product[] } {
+  const liveShops = shops.filter(isShopLive);
+  const liveIds = new Set(liveShops.map((s) => s.id));
+  const liveProducts = products.filter(
+    (p) =>
+      (p.ownerShopId && liveIds.has(p.ownerShopId)) ||
+      (p.storeIds ?? []).some((id) => liveIds.has(id)),
+  );
+  return { shops: liveShops, products: liveProducts };
+}
 
 interface CatalogState {
   products: Product[];
@@ -27,8 +44,9 @@ export function useCatalog(): CatalogState {
 
   const fetchData = useCallback(async () => {
     if (!isSupabaseConfigured) {
-      setProducts(MOCK_PRODUCTS);
-      setShops(MOCK_SHOPS);
+      const live = keepLive(MOCK_SHOPS, MOCK_PRODUCTS);
+      setProducts(live.products);
+      setShops(live.shops);
       setLoading(false);
       return;
     }
@@ -44,14 +62,19 @@ export function useCatalog(): CatalogState {
       if (shopsRes.error) throw shopsRes.error;
       if (productsRes.error) throw productsRes.error;
 
-      setShops((shopsRes.data as ShopRow[]).map(mapShop));
-      setProducts((productsRes.data as ProductRow[]).map(mapProduct));
+      const live = keepLive(
+        (shopsRes.data as ShopRow[]).map(mapShop),
+        (productsRes.data as ProductRow[]).map(mapProduct),
+      );
+      setShops(live.shops);
+      setProducts(live.products);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Failed to load catalog.';
       setError(message);
       // Graceful fallback so a misconfigured demo still shows content.
-      setProducts(MOCK_PRODUCTS);
-      setShops(MOCK_SHOPS);
+      const live = keepLive(MOCK_SHOPS, MOCK_PRODUCTS);
+      setProducts(live.products);
+      setShops(live.shops);
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Loader2, MapPin } from 'lucide-react';
+import { X, Loader2, MapPin, GitBranch } from 'lucide-react';
 import { Shop, Region } from '../../types';
 import { ImageUpload } from '../../components/ImageUpload';
 import { PhoneInput } from '../../components/PhoneInput';
@@ -47,6 +47,9 @@ const SOCIAL_FIELDS: { key: SocialKey; label: string }[] = [
 interface Props {
   shop: Shop | null;
   ownerId?: string | null;
+  /** When creating, pre-fill shared brand info from this store and mark the new
+   *  store as its branch. Ignored when editing an existing shop. */
+  prefillFrom?: Shop | null;
   onClose: () => void;
   onSaved: () => void;
 }
@@ -55,12 +58,37 @@ const inputCls =
   'w-full bg-[#FAF7F2] border border-[#E8DEC8] rounded-xl px-3.5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF914D]';
 const labelCls = 'block text-xs font-semibold text-[#134E4A] mb-1.5';
 
-export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved }) => {
+export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, prefillFrom, onClose, onSaved }) => {
   const { t, language, translateShopType, translateRegion } = useLanguage();
   const isNew = !shop;
+  const isBranch = isNew && !!prefillFrom;
   const [form, setForm] = useState<Partial<Shop>>(
     shop
       ? { ...shop, description: localized(shop.description, shop.descriptionKh, language) }
+      : prefillFrom
+      ? {
+          // Branch: copy the shared brand info, but leave THIS branch's own
+          // location/hours blank for the merchant to fill in. Image URL is
+          // copied for display, but not its Cloudinary id (so deleting the
+          // branch can't remove the parent's shared photo).
+          name: prefillFrom.name ?? '',
+          khmerName: prefillFrom.khmerName ?? '',
+          type: prefillFrom.type,
+          region: prefillFrom.region,
+          city: '',
+          address: '',
+          openingHours: '',
+          paymentMethods: prefillFrom.paymentMethods ?? [],
+          phone: prefillFrom.phone ?? '',
+          instagram: prefillFrom.instagram, telegram: prefillFrom.telegram, wechat: prefillFrom.wechat,
+          messenger: prefillFrom.messenger, facebook: prefillFrom.facebook, tiktok: prefillFrom.tiktok,
+          whatsapp: prefillFrom.whatsapp, website: prefillFrom.website, email: prefillFrom.email,
+          contactNote: prefillFrom.contactNote,
+          description: localized(prefillFrom.description, prefillFrom.descriptionKh, language),
+          image: prefillFrom.image ?? '',
+          imagePublicId: null,
+          isVerified: false,
+        }
       : {
           name: '',
           khmerName: '',
@@ -95,6 +123,7 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
       const payload: Partial<Shop> = { ...form };
       if (isNew) {
         payload.id = slugify(form.name || 'shop');
+        if (prefillFrom) payload.parentShopId = prefillFrom.parentShopId || prefillFrom.id;
         if (ownerId) {
           payload.ownerId = ownerId;
           payload.status = 'pending';
@@ -127,7 +156,7 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
     <div className="fixed inset-0 z-50 bg-black/40 flex items-start justify-center p-3 sm:p-4 overflow-y-auto">
       <div className="bg-white rounded-3xl w-full max-w-2xl my-6 shadow-2xl">
         <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#F2EDE4] sticky top-0 bg-white rounded-t-3xl z-10">
-          <h2 className="font-sans text-xl font-bold text-[#134E4A]">{isNew ? t('addShopTitle') : t('editShopTitle')}</h2>
+          <h2 className="font-sans text-xl font-bold text-[#134E4A]">{isBranch ? t('addBranchTitle') : isNew ? t('addShopTitle') : t('editShopTitle')}</h2>
           <div className="flex items-center gap-2">
             <LanguageToggle />
             <button onClick={onClose} className="p-1.5 hover:bg-[#F2EDE4] rounded-lg cursor-pointer">
@@ -137,6 +166,12 @@ export const ShopFormModal: React.FC<Props> = ({ shop, ownerId, onClose, onSaved
         </div>
 
         <form onSubmit={handleSubmit} className="px-6 sm:px-8 py-6 space-y-6">
+          {isBranch && prefillFrom && (
+            <div className="flex items-start gap-2 bg-[#FFF3E9] border border-[#FF914D]/40 text-[#8a4b1e] text-xs rounded-xl p-3">
+              <GitBranch className="w-4 h-4 shrink-0 mt-0.5 text-[#FF914D]" />
+              <span><strong>{t('branchOf', { name: prefillFrom.name })}.</strong> {t('branchFormHint')}</span>
+            </div>
+          )}
           <div>
             <label className={labelCls}>{t('shopPhoto')}</label>
             <ImageUpload

@@ -2,9 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shop } from '../types';
 import { useLanguage } from '../context/LanguageContext';
-import { MapPin, Clock, Star, Store, ShieldCheck, Zap, ExternalLink } from 'lucide-react';
+import { MapPin, Clock, Star, Store, ShieldCheck, Zap, ExternalLink, Eye } from 'lucide-react';
 import { ReportButton } from './ReportButton';
 import { isBoostActive } from '../lib/shops';
+import { formatViews } from '../lib/util';
 
 interface Props {
   shop: Shop;
@@ -76,6 +77,10 @@ export const ShopListItem: React.FC<Props> = ({ shop, onSelectShopOnMap }) => {
                 <span className="truncate">{shop.openingHours}</span>
               </span>
             )}
+            <span className="inline-flex items-center gap-1 shrink-0 font-semibold text-[#134E4A]" title={t('storeViewsLabel')}>
+              <Eye className="w-3 h-3 text-[#FF914D] shrink-0" />
+              {formatViews(shop.viewCount)}
+            </span>
           </div>
         </div>
 

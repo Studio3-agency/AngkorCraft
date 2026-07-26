@@ -60,6 +60,8 @@ export interface ShopRow {
   subscription_expires_at: string | null;
   vertical: string;
   created_at: string;
+  view_count: number | null;
+  parent_shop_id: string | null;
 }
 
 export interface ProductRow {
@@ -149,6 +151,8 @@ export function mapShop(row: ShopRow): Shop {
     subscriptionExpiresAt: row.subscription_expires_at,
     vertical: row.vertical,
     createdAt: row.created_at,
+    viewCount: row.view_count ?? 0,
+    parentShopId: row.parent_shop_id ?? null,
   };
 }
 
@@ -275,6 +279,8 @@ export function shopToRow(shop: Partial<Shop>): Partial<ShopRow> {
   if (shop.subscriptionStatus !== undefined) row.subscription_status = shop.subscriptionStatus;
   if (shop.subscriptionExpiresAt !== undefined) row.subscription_expires_at = shop.subscriptionExpiresAt;
   if (shop.vertical !== undefined) row.vertical = shop.vertical;
+  // view_count is system-managed (DB trigger); never written from the client.
+  if (shop.parentShopId !== undefined) row.parent_shop_id = shop.parentShopId;
   return row;
 }
 

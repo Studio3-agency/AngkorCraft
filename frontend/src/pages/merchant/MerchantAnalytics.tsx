@@ -364,40 +364,72 @@ const SortableTh: React.FC<{ label: string; active: boolean; dir: SortDir; onCli
 );
 
 const TrendChart: React.FC<{ series: ViewBucket[]; peak: number; hovered: number | null; setHovered: (i: number | null) => void }> = ({ series, peak, hovered, setHovered }) => {
-  const labelStep = Math.max(1, Math.ceil(series.length / 8));
+  const n = series.length;
+  const labelStep = Math.max(1, Math.ceil(n / 8));
+  // Point coordinates in a 0..100 space (SVG stretches to fill; strokes use
+  // non-scaling-stroke and dots are DOM overlays so nothing looks distorted).
+  const pts = series.map((b, i) => ({
+    x: n > 1 ? (i / (n - 1)) * 100 : 50,
+    y: peak > 0 ? (1 - b.count / peak) * 100 : 100,
+    b,
+  }));
+  const linePath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+  const areaPath = `M ${pts[0].x} 100 ${pts.map((p) => `L ${p.x} ${p.y}`).join(' ')} L ${pts[n - 1].x} 100 Z`;
+  const hp = hovered !== null ? pts[hovered] : null;
+
   return (
     <div className="relative">
-      <div className="flex items-end gap-1 h-48">
-        {series.map((b, i) => {
-          const h = peak > 0 ? (b.count / peak) * 100 : 0;
-          const isHovered = hovered === i;
-          return (
-            <div
-              key={b.key}
-              className="flex-1 h-full flex items-end relative"
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-            >
-              <div
-                className={`w-full rounded-t-md transition-colors ${isHovered ? 'bg-[#F07A33]' : b.count > 0 ? 'bg-[#FF914D]' : 'bg-[#F2EDE4]'}`}
-                style={{ height: `${b.count > 0 ? Math.max(3, h) : 6}%`, minHeight: b.count > 0 ? 4 : 2 }}
-                title={`${b.fullLabel}: ${b.count}`}
-              />
-              {isHovered && (
-                <div className="absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-full z-10 whitespace-nowrap bg-[#134E4A] text-white text-xs rounded-lg px-2.5 py-1.5 shadow-lg pointer-events-none">
-                  <div className="font-bold">{b.count.toLocaleString()} {b.count === 1 ? 'view' : 'views'}</div>
-                  <div className="text-white/70 text-[10px]">{b.fullLabel}</div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+      <div className="relative h-52">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full overflow-visible">
+          <defs>
+            <linearGradient id="viewsArea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#FF914D" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#FF914D" stopOpacity="0.02" />
+            </linearGradient>
+          </defs>
+          {/* horizontal gridlines */}
+          {[0, 25, 50, 75, 100].map((gy) => (
+            <line key={gy} x1="0" y1={gy} x2="100" y2={gy} stroke="#EFE7DA" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+          ))}
+          <path d={areaPath} fill="url(#viewsArea)" />
+          <path d={linePath} fill="none" stroke="#FF914D" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+          {hp && (
+            <line x1={hp.x} y1="0" x2={hp.x} y2="100" stroke="#134E4A" strokeWidth="1" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />
+          )}
+        </svg>
+
+        {/* Non-distorted dots (DOM overlay) */}
+        {pts.map((p, i) => (
+          <div
+            key={p.b.key}
+            className={`absolute rounded-full border-2 border-white transition-all ${hovered === i ? 'bg-[#134E4A] w-3 h-3' : 'bg-[#FF914D] w-2 h-2'}`}
+            style={{ left: `${p.x}%`, top: `${p.y}%`, transform: 'translate(-50%, -50%)' }}
+          />
+        ))}
+
+        {/* Invisible hover columns for tooltips */}
+        <div className="absolute inset-0 flex">
+          {series.map((b, i) => (
+            <div key={b.key} className="flex-1" onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)} />
+          ))}
+        </div>
+
+        {hp && (
+          <div
+            className="absolute z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap bg-[#134E4A] text-white text-xs rounded-lg px-2.5 py-1.5 shadow-lg pointer-events-none"
+            style={{ left: `${hp.x}%`, top: `${hp.y}%`, marginTop: -10 }}
+          >
+            <div className="font-bold">{hp.b.count.toLocaleString()} {hp.b.count === 1 ? 'view' : 'views'}</div>
+            <div className="text-white/70 text-[10px]">{hp.b.fullLabel}</div>
+          </div>
+        )}
       </div>
+
       {/* Sparse axis labels */}
       <div className="flex gap-1 mt-2">
         {series.map((b, i) => (
           <div key={b.key} className="flex-1 text-center text-[10px] text-[#8C7A70] truncate">
-            {i % labelStep === 0 || i === series.length - 1 ? b.label : ''}
+            {i % labelStep === 0 || i === n - 1 ? b.label : ''}
           </div>
         ))}
       </div>

@@ -107,12 +107,29 @@ export async function fetchShopBySlug(slug: string): Promise<Shop | null> {
   return data ? mapShop(data as ShopRow) : null;
 }
 
+/**
+ * Fetch a single shop by slug, falling back to id. Used by the store page to
+ * render a shop that isn't in the public catalog (e.g. an owner previewing a
+ * store whose subscription is inactive). RLS still applies.
+ */
+export async function fetchShopBySlugOrId(slugOrId: string): Promise<Shop | null> {
+  const bySlug = await supabase.from('shops').select('*').eq('slug', slugOrId).maybeSingle();
+  if (!bySlug.error && bySlug.data) return mapShop(bySlug.data as ShopRow);
+  const byId = await supabase.from('shops').select('*').eq('id', slugOrId).maybeSingle();
+  if (byId.error) {
+    if (isMissingColumnError(byId.error)) return null;
+    throw byId.error;
+  }
+  return byId.data ? mapShop(byId.data as ShopRow) : null;
+}
+
 // Columns added by later migrations. If a migration hasn't been applied yet,
 // writing these fails with a "column does not exist" error — so we detect that
 // and retry without them, keeping saves working either way.
 const OPTIONAL_SHOP_COLUMNS = [
   'instagram', 'telegram', 'wechat', 'messenger', 'facebook', 'tiktok',
   'whatsapp', 'website', 'email', 'contact_note', 'slug', 'moderation_status',
+  'parent_shop_id',
 ];
 
 function isMissingColumnError(err: { code?: string; message?: string; details?: string } | null): boolean {

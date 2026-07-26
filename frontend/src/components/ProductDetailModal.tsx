@@ -2,8 +2,9 @@ import React from 'react';
 import { Product, Shop } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 import { localized } from '../lib/localize';
-import { X, MapPin, ShieldCheck, Sparkles, Heart, Star, Clock, CreditCard, ExternalLink, BookOpen, Layers } from 'lucide-react';
+import { X, MapPin, ShieldCheck, Sparkles, Heart, Star, Clock, CreditCard, ExternalLink, BookOpen, Layers, Eye } from 'lucide-react';
 import { ReportButton } from './ReportButton';
+import { formatViews } from '../lib/util';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -221,6 +222,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       <div className="flex items-center gap-1">
                         <CreditCard className="w-3 h-3 text-[#FF914D]" />
                         <span>{shop.paymentMethods && shop.paymentMethods.length > 0 ? shop.paymentMethods.join(', ') : <span className="italic opacity-60">Not specified</span>}</span>
+                      </div>
+                      <div className="flex items-center gap-1 font-semibold text-[#134E4A]">
+                        <Eye className="w-3 h-3 text-[#FF914D]" />
+                        <span>{formatViews(shop.viewCount)} {t('viewsWord')}</span>
                       </div>
                     </div>
                   </div>

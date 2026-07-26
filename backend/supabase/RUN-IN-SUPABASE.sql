@@ -353,3 +353,30 @@ create policy store_views_select on public.store_views
       where s.id = store_views.shop_id and s.owner_id = auth.uid()
     )
   );
+
+-- ===== store analytics v2: public counter + branches =====
+-- Public, denormalized total views so marketplace cards can show "N views"
+-- without exposing the owner-only raw log.
+alter table public.shops add column if not exists view_count integer not null default 0;
+
+create or replace function public.bump_shop_view_count()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  update public.shops set view_count = coalesce(view_count, 0) + 1
+    where id = new.shop_id;
+  return new;
+end; $$;
+drop trigger if exists bump_shop_view_count on public.store_views;
+create trigger bump_shop_view_count after insert on public.store_views
+  for each row execute function public.bump_shop_view_count();
+
+update public.shops s
+set view_count = coalesce((
+  select count(*) from public.store_views v where v.shop_id = s.id
+), 0);
+
+-- Branch relationship: a store may be a branch of another store (shared brand,
+-- separate location). NULL = standalone / main store.
+alter table public.shops add column if not exists parent_shop_id text
+  references public.shops(id) on delete set null;
+create index if not exists shops_parent_idx on public.shops(parent_shop_id);

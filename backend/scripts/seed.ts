@@ -46,6 +46,8 @@ function shopRow(shop: Shop, index: number) {
     image_url: shop.image ?? '',
     image_public_id: null,
     description: shop.description ?? '',
+    description_kh: shop.descriptionKh ?? '',
+    parent_shop_id: shop.parentShopId ?? null,
     is_verified: shop.isVerified ?? false,
     featured_product_ids: shop.featuredProductIds ?? [],
     // Seed shops are live; first few are spotlighted so the homepage looks full.
@@ -77,7 +79,9 @@ function productRow(product: Product) {
     image_url: product.image ?? '',
     image_public_id: null,
     description: product.description ?? '',
+    description_kh: product.descriptionKh ?? '',
     cultural_story: product.culturalStory ?? '',
+    cultural_story_kh: product.culturalStoryKh ?? '',
     store_ids: product.storeIds ?? [],
     authentic_tips: product.authenticTips ?? [],
     tags: product.tags ?? [],
